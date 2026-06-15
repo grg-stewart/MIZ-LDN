@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>London 2026 · Travel Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B3A6B;
+    --gold: #C9A84C;
+    --gold-light: #F5E6C0;
+    --cream: #FDFAF4;
+    --white: #FFFFFF;
+    --dark: #1A1A2E;
+    --gray: #4B5563;
+    --gray-light: #F3F4F6;
+    --gray-mid: #9CA3AF;
+    --green: #166534;
+    --green-light: #DCFCE7;
+    --green-mid: #16A34A;
+    --red: #7F1D1D;
+    --red-light: #FEE2E2;
+    --purple: #4C1D95;
+    --purple-light: #EDE9FE;
+    --purple-mid: #7C3AED;
+    --amber: #92400E;
+    --amber-light: #FEF3C7;
+    --amber-mid: #D97706;
+    --radius: 13px;
+    --shadow: 0 2px 14px rgba(27,58,107,0.10);
+    --shadow-lg: 0 8px 32px rgba(27,58,107,0.16);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: 'DM Sans', sans-serif; background: #E8EAF0; color: var(--dark); min-height: 100vh; padding-bottom: 90px; font-size: 15px; }
+
+  /* TOP BAR */
+  .top-bar { position: sticky; top: 0; z-index: 100; background: var(--navy); }
+  .top-bar-inner { display: flex; align-items: center; justify-content: space-between; padding: 13px 18px; max-width: 520px; margin: 0 auto; }
+  .top-bar-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--gold); }
+  .top-bar-sub { font-size: 12px; color: rgba(255,255,255,0.55); letter-spacing: 0.07em; margin-top: 2px; }
+
+  /* DAY NAV */
+  .day-nav { background: var(--navy); border-top: 1px solid rgba(201,168,76,0.25); overflow-x: auto; scrollbar-width: none; }
+  .day-nav::-webkit-scrollbar { display: none; }
+  .day-nav-inner { display: flex; padding: 0 14px; gap: 2px; min-width: max-content; max-width: 520px; margin: 0 auto; }
+  .day-tab { padding: 11px 15px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.45); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.2s; letter-spacing: 0.04em; background: none; border-top: none; border-left: none; border-right: none; font-family: 'DM Sans', sans-serif; }
+  .day-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* CONTENT */
+  .content { max-width: 520px; margin: 0 auto; padding: 0 16px; }
+  .day-panel { display: none; }
+  .day-panel.active { display: block; animation: fadeUp 0.25s ease; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* DAY HERO */
+  .day-hero { background: linear-gradient(135deg, #0F2547 0%, #1B3A6B 60%, #243F72 100%); margin: 0 -16px; padding: 24px 20px 20px; position: relative; overflow: hidden; }
+  .day-hero::after { content: ''; position: absolute; bottom: -20px; right: -20px; width: 120px; height: 120px; border-radius: 50%; background: rgba(201,168,76,0.08); }
+  .day-hero-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .day-hero-title { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--white); line-height: 1.2; margin-bottom: 4px; }
+  .day-hero-sub { font-size: 14px; color: rgba(255,255,255,0.65); font-style: italic; }
+  .day-hero-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+  .hero-badge { font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 20px; letter-spacing: 0.03em; }
+  .hero-badge.lily  { background: rgba(124,58,237,0.25); color: #C4B5FD; border: 1px solid rgba(196,181,253,0.3); }
+  .hero-badge.show  { background: rgba(127,29,29,0.3); color: #FCA5A5; border: 1px solid rgba(252,165,165,0.3); }
+  .hero-badge.group { background: rgba(201,168,76,0.2); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+  .hero-badge.free  { background: rgba(22,163,74,0.2); color: #86EFAC; border: 1px solid rgba(134,239,172,0.3); }
+
+  /* SECTION LABEL */
+  .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-mid); margin: 18px 0 10px; }
+
+  /* OPTION 4 HIGHLIGHT CARDS */
+  .highlight-card { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); margin: 6px 0 12px; }
+  .card-cap { padding: 14px 18px 12px; }
+  .card-cap.lily     { background: #2D1B6B; border-bottom: 3px solid #7C3AED; }
+  .card-cap.hamilton { background: #3B0A14; border-bottom: 3px solid #9F1239; }
+  .card-cap.tattoo   { background: #1A2E00; border-bottom: 3px solid #D97706; }
+  .card-cap.parade   { background: #0F2547; border-bottom: 3px solid var(--gold); }
+  .cap-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+  .card-cap.lily     .cap-eyebrow { color: #A78BFA; }
+  .card-cap.hamilton .cap-eyebrow { color: #F87171; }
+  .card-cap.tattoo   .cap-eyebrow { color: #FCD34D; }
+  .card-cap.parade   .cap-eyebrow { color: var(--gold); }
+  .cap-title { font-family: 'Playfair Display', serif; font-size: 19px; color: var(--white); line-height: 1.2; }
+  .card-body-light { background: var(--white); padding: 14px 18px 16px; }
+  .card-desc { font-size: 14px; line-height: 1.65; color: #1F2937; }
+  .card-pills { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+  .pill { font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 20px; }
+  .pill.lily     { background: var(--purple-light); color: var(--purple); }
+  .pill.show     { background: var(--red-light); color: var(--red); }
+  .pill.tattoo   { background: var(--amber-light); color: var(--amber); }
+  .pill.parade   { background: var(--gold-light); color: #92400E; }
+  .pill.neutral  { background: var(--gray-light); color: var(--gray); }
+
+  /* SCHEDULE */
+  .schedule-wrapper { background: var(--white); border-radius: var(--radius); padding: 4px 16px; box-shadow: var(--shadow); margin-bottom: 8px; }
+  .schedule-item { display: flex; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.055); }
+  .schedule-item:last-child { border-bottom: none; }
+  .time-col { width: 64px; flex-shrink: 0; text-align: right; padding-top: 3px; }
+  .time-text { font-size: 13px; font-weight: 700; color: var(--navy); line-height: 1.2; }
+  .time-sub  { font-size: 11px; color: var(--gray-mid); margin-top: 1px; }
+  .schedule-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin-top: 5px; position: relative; }
+  .schedule-dot::after { content: ''; position: absolute; top: 11px; left: 50%; transform: translateX(-50%); width: 1px; height: calc(100% + 12px); background: rgba(201,168,76,0.22); }
+  .schedule-item:last-child .schedule-dot::after { display: none; }
+  .schedule-dot.lily     { background: var(--purple-mid); }
+  .schedule-dot.meal     { background: var(--green-mid); }
+  .schedule-dot.show     { background: #9F1239; }
+  .schedule-dot.assemble { background: #D97706; }
+  .schedule-dot.free     { background: var(--green-mid); }
+  .schedule-dot.info     { background: var(--navy); }
+  .schedule-body { flex: 1; min-width: 0; }
+  .schedule-title { font-size: 15px; font-weight: 600; color: var(--dark); line-height: 1.35; margin-bottom: 4px; }
+  .schedule-desc  { font-size: 13px; color: var(--gray); line-height: 1.6; }
+  .schedule-tags  { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
+  .tag { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 10px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .tag.group-tour { background: #DBEAFE; color: #1E40AF; }
+  .tag.meal-inc   { background: var(--green-light); color: var(--green); }
+  .tag.meal-own   { background: var(--gray-light); color: #374151; }
+  .tag.free-time  { background: var(--green-light); color: var(--green); }
+  .tag.lily-perf  { background: var(--purple-light); color: var(--purple); }
+  .tag.west-end   { background: var(--red-light); color: var(--red); }
+  .tag.assemble   { background: var(--amber-light); color: var(--amber); }
+  .tag.transport  { background: #FEE2E2; color: #991B1B; }
+  .tag.tbd        { background: #F3F4F6; color: #6B7280; border: 1px dashed #9CA3AF; }
+
+  /* INFO BOXES */
+  .info-box { border-radius: var(--radius); padding: 14px 18px; margin: 8px 0; font-size: 14px; color: var(--dark); line-height: 1.65; }
+  .info-box.default { background: var(--white); border-left: 3px solid var(--gold); box-shadow: var(--shadow); }
+  .info-box.tip   { background: #EFF6FF; border-left: 4px solid #3B82F6; }
+  .info-box.warn  { background: var(--amber-light); border-left: 4px solid var(--amber-mid); }
+  .info-box.note  { background: var(--gold-light); border-left: 4px solid var(--gold); }
+  .info-box.tbd   { background: #F9FAFB; border: 2px dashed #D1D5DB; border-radius: var(--radius); }
+  .info-box.purple{ background: var(--purple-light); border-left: 4px solid var(--purple-mid); }
+  .info-box-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+  .info-box.tip  .info-box-label { color: #1D4ED8; }
+  .info-box.warn .info-box-label { color: var(--amber); }
+  .info-box.note .info-box-label { color: #92400E; }
+  .info-box.tbd  .info-box-label { color: var(--gray-mid); }
+  .info-box.purple .info-box-label { color: var(--purple-mid); }
+
+  /* PLACEHOLDER / TBD CARD */
+  .tbd-card { background: #F9FAFB; border: 2px dashed #D1D5DB; border-radius: var(--radius); padding: 18px; margin: 8px 0; text-align: center; }
+  .tbd-icon  { font-size: 28px; margin-bottom: 8px; }
+  .tbd-title { font-size: 15px; font-weight: 700; color: var(--gray); margin-bottom: 5px; }
+  .tbd-desc  { font-size: 13px; color: var(--gray-mid); line-height: 1.6; }
+
+  /* SPLIT EVENING */
+  .split-card { background: var(--white); border-radius: var(--radius); padding: 16px 18px; margin: 8px 0; box-shadow: var(--shadow); border-top: 3px solid #DB2777; }
+  .split-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #9D174D; margin-bottom: 12px; }
+  .split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .split-cell { border-radius: 10px; padding: 12px 13px; }
+  .split-cell.concert { background: #FDF2F8; }
+  .split-cell.own     { background: var(--gray-light); }
+  .split-who  { font-size: 11px; font-weight: 700; margin-bottom: 5px; }
+  .split-cell.concert .split-who { color: #9D174D; }
+  .split-cell.own     .split-who { color: var(--gray); }
+  .split-name  { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+  .split-times { font-size: 12px; color: var(--gray); line-height: 1.6; }
+
+  /* COLLAPSIBLE */
+  .collapsible-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 0 10px; cursor: pointer; border-bottom: 1px solid rgba(0,0,0,0.07); user-select: none; }
+  .collapsible-header-text { font-size: 14px; font-weight: 700; color: var(--navy); }
+  .chevron { font-size: 18px; color: var(--gold); transition: transform 0.25s; display: inline-block; }
+  .chevron.open { transform: rotate(90deg); }
+  .collapsible-body { overflow: hidden; max-height: 0; transition: max-height 0.35s ease; }
+  .collapsible-body.open { max-height: 2000px; }
+
+  /* GUIDE SECTION */
+  .guide-section { background: var(--white); border-radius: var(--radius); padding: 16px 18px; margin: 8px 0; box-shadow: var(--shadow); }
+  .guide-section-title { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--navy); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--gold-light); }
+  .guide-item { display: flex; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--gray-light); align-items: flex-start; }
+  .guide-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .guide-item-icon { font-size: 19px; flex-shrink: 0; margin-top: 1px; }
+  .guide-item-name { font-size: 14px; font-weight: 600; color: var(--navy); }
+  .guide-item-desc { font-size: 13px; color: var(--gray); line-height: 1.55; margin-top: 2px; }
+
+  /* FLIGHT CARDS */
+  .flight-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); margin: 8px 0; }
+  .flight-header { background: var(--navy); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; }
+  .flight-header-label { font-size: 12px; font-weight: 700; color: var(--gold); letter-spacing: 0.08em; text-transform: uppercase; }
+  .flight-header-date  { font-size: 12px; color: rgba(255,255,255,0.6); }
+  .flight-leg { padding: 14px 16px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--gray-light); }
+  .flight-leg:last-child { border-bottom: none; }
+  .flight-airport { font-size: 22px; font-weight: 700; color: var(--navy); font-family: 'Playfair Display', serif; width: 48px; }
+  .flight-arrow   { font-size: 18px; color: var(--gold); }
+  .flight-info    { flex: 1; }
+  .flight-number  { font-size: 14px; font-weight: 600; color: var(--dark); }
+  .flight-times   { font-size: 13px; color: var(--gray); margin-top: 2px; }
+  .flight-class   { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 8px; background: var(--gold-light); color: var(--amber); }
+
+  /* BOTTOM NAV */
+  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); border-top: 1px solid rgba(0,0,0,0.08); display: flex; justify-content: space-around; padding: 10px 0 max(10px, env(safe-area-inset-bottom)); z-index: 100; box-shadow: 0 -4px 20px rgba(0,0,0,0.07); }
+  .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; padding: 4px 14px; border-radius: 10px; background: none; border: none; font-family: 'DM Sans', sans-serif; transition: background 0.15s; }
+  .nav-item:active { background: var(--gray-light); }
+  .nav-icon  { font-size: 22px; }
+  .nav-label { font-size: 11px; font-weight: 500; color: var(--gray); letter-spacing: 0.03em; }
+  .nav-item.active .nav-label { color: var(--navy); font-weight: 700; }
+
+  .panel { display: none; }
+  .panel.active { display: block; animation: fadeUp 0.25s ease; }
+  .hotel-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); margin: 10px 0; }
+  .hotel-hdr { padding: 16px 18px 14px; }
+  .hotel-hdr.group { background: linear-gradient(135deg, #0F2547, #1B3A6B); border-bottom: 3px solid var(--gold); }
+  .hotel-hdr.lily  { background: linear-gradient(135deg, #1E0A47, #2D1B69); border-bottom: 3px solid #7C3AED; }
+  .hotel-ey { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 4px; }
+  .hotel-hdr.group .hotel-ey { color: var(--gold); }
+  .hotel-hdr.lily  .hotel-ey { color: #C4B5FD; }
+  .hotel-name { font-family: "Playfair Display", serif; font-size: 20px; color: var(--white); line-height: 1.2; }
+  .hotel-body { padding: 4px 16px 14px; }
+  .hrow { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--gray-light); align-items: flex-start; }
+  .hrow:last-child { border-bottom: none; padding-bottom: 0; }
+  .hrow-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .hrow-label { font-size: 11px; font-weight: 700; color: var(--gray-mid); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+  .hrow-val { font-size: 14px; color: var(--dark); line-height: 1.55; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <div>
+      <div class="top-bar-title">London 2026</div>
+      <div class="top-bar-sub">Greg · Katie · Gail &nbsp;|&nbsp; June 22–29</div>
+    </div>
+  </div>
+  <div class="day-nav">
+    <div class="day-nav-inner">
+      <button class="day-tab" onclick="switchDay('day1')">Tue 23</button>
+      <button class="day-tab" onclick="switchDay('day2')">Wed 24</button>
+      <button class="day-tab" onclick="switchDay('day3')">Thu 25</button>
+      <button class="day-tab" onclick="switchDay('day4')">Fri 26</button>
+      <button class="day-tab" onclick="switchDay('day5')">Sat 27</button>
+      <button class="day-tab" onclick="switchDay('day6')">Sun 28</button>
+      <button class="day-tab" onclick="switchDay('day7')">Mon 29</button>
+    </div>
+  </div>
+</div>
+
+<div id="itinerary-panel" class="panel active">
+
+<!-- ══ DAY 1: ARRIVAL ══ -->
+<div id="day1" class="day-panel content">
+  <div class="day-hero">
+    <div class="day-hero-eyebrow">Day 1 · Tuesday, June 23</div>
+    <div class="day-hero-title">Arrival Day</div>
+    <div class="day-hero-sub">Welcome to London!</div>
+    <div class="day-hero-tags">
+      <span class="hero-badge group">Welcome Dinner</span>
+      <span class="hero-badge free">West End Evening</span>
+    </div>
+  </div>
+  <div class="section-label">Schedule</div>
+  <div class="schedule-wrapper">
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">12:10</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Arrive London Heathrow — <a href="https://flightaware.com/live/flight/AAL734/history/20260623" target="_blank" style="color:#C9A84C;text-decoration:underline;">AA 734</a></div>
+        <div class="schedule-desc">Clear immigration (US citizens: E-gates OK), collect luggage, exit GREEN channel.</div>
+        <div class="schedule-tags"><span class="tag transport">Independent Transport</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">~12:15</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Devon &amp; Alicia arrive LHR — <a href="https://flightaware.com/live/flight/AAL98/history/20260622" target="_blank" style="color:#C9A84C;text-decoration:underline;">AA 98</a></div>
+        <div class="schedule-desc">COU to ORD on <a href="https://flightaware.com/live/flight/ENY3479/history/20260622" target="_blank" style="color:#C9A84C;text-decoration:underline;">AA Eagle 3479</a>, then ORD to LHR on AA 98. Arriving just 5 minutes after Greg/Katie/Gail — good chance of crossing paths at LHR. Return flights TBD.</div>
+        <div class="schedule-tags"><span class="tag transport">Independent Transport</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">~2:00</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Transfer to Novotel Tower Bridge &nbsp;<a href="https://www.google.com/maps/search/?api=1&query=Novotel+Tower+Bridge+10+Pepys+Street+London" target="_blank" style="color:#C9A84C;font-size:12px;text-decoration:none;">&#x1F4CD; Map</a></div>
+        <div class="schedule-desc">10 Pepys Street, EC3N 2NR. Tell driver: Novotel Tower Bridge on Pepys Street — NOT Novotel London Bridge!</div>
+        <div class="schedule-tags"><span class="tag transport">Independent Transport</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">3:00</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Hotel Check-In</div>
+        <div class="schedule-desc">Bags stored before 3pm if arriving early. Devon &amp; Alicia arriving at similar time — see above.</div>
+        <div class="schedule-tags"><span class="tag group-tour">Group Event</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">5:00</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot meal"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Group Welcome Dinner</div>
+        <div class="schedule-desc">Hotel restaurant. First chance to reconnect with Devon, Alicia, and the group.</div>
+        <div class="schedule-tags"><span class="tag meal-inc">Meal Included</span><span class="tag group-tour">Group Event</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">Evening</div></div>
+      <div class="schedule-dot free"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Free evening — local pub or stroll</div>
+        <div class="schedule-desc">Tower Bridge area. Light stays until nearly 10pm in June. The Hoop & Grapes (survived the Great Fire of 1666) is 5 min away.</div>
+        <div class="schedule-tags"><span class="tag free-time">Free Time</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="info-box tip">
+    <div class="info-box-label">💡 Arrival tip</div>
+    It's been a long travel day. A short stroll and an early night sets you up well for a full Wednesday. Lily's band is checking in today too — she'll have her own welcome reception this evening.
+  </div>
+</div>
+
+<!-- ══ DAY 2: WEDNESDAY ══ -->
+<div id="day2" class="day-panel content">
+  <div class="day-hero">
+    <div class="day-hero-eyebrow">Day 2 · Wednesday, June 24</div>
+    <div class="day-hero-title">Westminster & Walking Tour</div>
+    <div class="day-hero-sub">Buckingham Palace, Westminster Abbey, Big Ben</div>
+    <div class="day-hero-tags">
+      <span class="hero-badge group">Changing of the Guard</span>
+      <span class="hero-badge group">Westminster Abbey</span>
+      <span class="hero-badge free">Free Evening</span>
+    </div>
+  </div>
+  <div class="info-box note" style="margin-top:12px;">
+    <div class="info-box-label">🍽 Breakfast</div>
+    English Breakfast opens at the hotel from 6:30 AM — Meal Included.
+  </div>
+  <div class="section-label">Schedule</div>
+  <div class="schedule-wrapper">
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">6:30</div><div class="time-sub">AM</div></div>
+      <div class="schedule-dot meal"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">English Breakfast opens</div>
+        <div class="schedule-tags"><span class="tag meal-inc">Meal Included</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">8:30</div><div class="time-sub">AM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Meet in lobby — whisper system headsets distributed</div>
+        <div class="schedule-desc">You'll keep these until Sunday afternoon.</div>
+        <div class="schedule-tags"><span class="tag group-tour">Group Tour</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">9:00</div><div class="time-sub">AM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Depart by Tube — Tower Hill to St James's Park</div>
+        <div class="schedule-desc">Tour managers escort all Tube travel. Oyster Card pre-loaded and provided.</div>
+        <div class="schedule-tags"><span class="tag group-tour">Group Tour</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">11:00</div><div class="time-sub">AM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Changing of the Guard — Buckingham Palace</div>
+        <div class="schedule-desc">Arrive by 10:15 AM for a good spot on The Mall or at the Victoria Memorial.</div>
+        <div class="schedule-tags"><span class="tag group-tour">Group Tour</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">~12:00</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot meal"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Lunch on own — Westminster area</div>
+        <div class="schedule-desc">Near Westminster Abbey. Many cafés and pubs nearby.</div>
+        <div class="schedule-tags"><span class="tag meal-own">Meal on Own</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">1:15</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Westminster Abbey — guided visit</div>
+        <div class="schedule-desc">Meet at plaza outside Westminster Abbey Shop.</div>
+        <div class="schedule-tags"><span class="tag group-tour">Group Tour</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">1:15–</div><div class="time-sub">4:30</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Guided walking tour</div>
+        <div class="schedule-desc">The Mall · St James's Park · Horse Guards Parade · Downing Street · Big Ben · Parliament · Trafalgar Square</div>
+        <div class="schedule-tags"><span class="tag group-tour">Group Tour</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">4:30</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot free"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Return to hotel or stay for independent exploration</div>
+        <div class="schedule-desc">Tube: Embankment to Tower Hill. Or explore Trafalgar Square, National Gallery (free), or head toward the West End.</div>
+        <div class="schedule-tags"><span class="tag free-time">Free Time</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">Evening</div></div>
+      <div class="schedule-dot meal"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Dinner on own — Tower Bridge area or West End</div>
+        <div class="schedule-tags"><span class="tag meal-own">Meal on Own</span><span class="tag free-time">Free Time</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="info-box purple">
+    <div class="info-box-label">🎷 Lily note</div>
+    Lily's band is on a similar Westminster/Buckingham Palace route today — there's a chance you'll cross paths! Band dinner is on their own tonight.
+  </div>
+</div>
+
+<!-- ══ DAY 3: THURSDAY ══ -->
+<div id="day3" class="day-panel content">
+  <div class="day-hero">
+    <div class="day-hero-eyebrow">Day 3 · Thursday, June 25</div>
+    <div class="day-hero-title">Potters Fields Park & Hamilton Night</div>
+    <div class="day-hero-sub">Lily performs at noon · Hamilton at 7:30 PM</div>
+    <div class="day-hero-tags">
+      <span class="hero-badge lily">🎷 Lily Performs</span>
+      <span class="hero-badge show">🎭 Hamilton</span>
+      <span class="hero-badge group">Tower of London</span>
+    </div>
+  </div>
+  <div class="info-box note" style="margin-top:12px;">
+    <div class="info-box-label">🍽 Breakfast</div>
+    English Breakfast opens at 6:30 AM — Meal Included. Note: lunch is later than usual today.
+  </div>
+  <div class="section-label">Today's Highlights</div>
+  <div class="highlight-card">
+    <div class="card-cap lily">
+      <div class="cap-eyebrow">🎷 Lily Performs</div>
+      <div class="cap-title">Marching Mizzou — Live in London!</div>
+    </div>
+    <div class="card-body-light">
+      <div class="card-desc">Tower Bridge performance at noon — and your group is already at the Tower of London just steps away. Perfect overlap. Stay for photo calls after.</div>
+      <div class="card-pills">
+        <span class="pill lily">📍 Potters Fields Park</span>
+        <span class="pill lily">🕛 12:00 PM</span>
+        <span class="pill neutral">📸 Photo calls after</span>
+      </div>
+    </div>
+  </div>
+  <div class="highlight-card">
+    <div class="card-cap hamilton">
+      <div class="cap-eyebrow">🎭 West End Show — CONFIRMED</div>
+      <div class="cap-title">Hamilton — Victoria Palace Theatre</div>
+    </div>
+    <div class="card-body-light">
+      <div class="card-desc">Whole group including Lily. Depart hotel ~6:30 PM. Approximately 2h 45m with interval — out by ~10:30 PM.</div>
+      <div class="card-pills">
+        <span class="pill show">🕢 7:30 PM</span>
+        <span class="pill show">🚇 Depart 6:30 PM</span>
+        <span class="pill neutral">~2h 45m</span>
+      </div>
+    </div>
+  </div>
+  <div class="section-label">Schedule</div>
+  <div class="schedule-wrapper">
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">6:30</div><div class="time-sub">AM</div></div>
+      <div class="schedule-dot meal"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">English Breakfast opens</div>
+        <div class="schedule-tags"><span class="tag meal-inc">Meal Included</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">8:30</div><div class="time-sub">AM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Meet in lobby — walk to Tower of London</div>
+        <div class="schedule-tags"><span class="tag group-tour">Group Tour</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">8:30–</div><div class="time-sub">12:00</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Tower of London</div>
+        <div class="schedule-desc">Crown Jewels, Yeomen Warders (Beefeaters), White Tower armour and weaponry.</div>
+        <div class="schedule-tags"><span class="tag group-tour">Group Tour</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">12:00</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot lily"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">&#x2605; Lily performs — Potters Fields Park! &nbsp;<a href="https://www.google.com/maps/search/?api=1&query=Potters+Fields+Park+London+SE1" target="_blank" style="color:#C9A84C;font-size:12px;text-decoration:none;">&#x1F4CD; Map</a></div>
+        <div class="schedule-desc">Stay for photo calls after.</div>
+        <div class="schedule-tags"><span class="tag lily-perf">Lily Performs</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">After</div></div>
+      <div class="schedule-dot free"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Lunch on own — Borough Market or Tower Bridge Collective</div>
+        <div class="schedule-desc">Borough Market: roots to 12th century, great street food. Tower Bridge Collective: variety and bridge views.</div>
+        <div class="schedule-tags"><span class="tag meal-own">Meal on Own</span><span class="tag free-time">Free Time</span></div>
+      </div>
+    </div>
+    <div class="collapsible-header" onclick="toggleCollapse('blackdog')">
+      <div class="collapsible-header-text">🐾 Nearby: The Black Dog, Vauxhall</div>
+      <span class="chevron" id="chevron-blackdog">›</span>
+    </div>
+    <div class="collapsible-body" id="collapse-blackdog">
+      <div class="info-box purple" style="margin-top:10px; margin-bottom:4px;">
+        <div class="info-box-label">🐾 Taylor Swift Landmark</div>
+        Award-winning freehouse in Vauxhall — referenced on The Tortured Poets Department. Excellent on its own: real ales, fairy-lit interior, best scotch egg in London. 112 Vauxhall Walk, SE11. ~20 min from hotel.<br><br>
+        <strong>Best fit:</strong> Katie, Alicia &amp; Lily after the Tower Bridge performance (~1:15 PM). Vauxhall to Victoria Palace Theatre (Hamilton) is only a 15-min walk — ideal pre-show stop.
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">Afternoon</div></div>
+      <div class="schedule-dot free"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Free afternoon</div>
+        <div class="schedule-desc">Options: British Museum (20 min walk, free), National Gallery (9 min walk, free), Shad Thames riverside stroll, or rest at the hotel.</div>
+        <div class="schedule-tags"><span class="tag free-time">Free Time</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">6:30</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Depart hotel for Victoria Palace Theatre</div>
+        <div class="schedule-desc">Tower Hill → Victoria (District/Circle line, ~30 min). Victoria Street, SW1E 5EA.</div>
+        <div class="schedule-tags"><span class="tag transport">Independent Transport</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">7:30</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot show"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">&#x2605; HAMILTON &nbsp;<a href="https://www.google.com/maps/search/?api=1&query=Victoria+Palace+Theatre+London" target="_blank" style="color:#C9A84C;font-size:12px;text-decoration:none;">&#x1F4CD; Map</a></div>
+        <div class="schedule-desc">Victoria Palace Theatre. Whole group including Lily. ~2h 45m with interval — out ~10:30 PM.</div>
+        <div class="schedule-tags"><span class="tag west-end">West End Show</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="info-box tip">
+    <div class="info-box-label">🚇 Transit tip</div>
+    Tower Hill → Victoria (District/Circle): ~30 min. Or Tower Hill → Green Park (District): ~25 min, then a short walk.
+  </div>
+</div>
+
+<!-- ══ DAY 4: FRIDAY ══ -->
+<div id="day4" class="day-panel content">
+  <div class="day-hero">
+    <div class="day-hero-eyebrow">Day 4 · Friday, June 26</div>
+    <div class="day-hero-title">Windsor & Split Evening</div>
+    <div class="day-hero-sub">Royal Windsor by day · Harry Styles at Wembley by night</div>
+    <div class="day-hero-tags">
+      <span class="hero-badge group">Windsor Castle</span>
+      <span class="hero-badge show">🎤 Harry Styles</span>
+      <span class="hero-badge free">Greg · Devon · Gail — own</span>
+    </div>
+  </div>
+  <div class="info-box note" style="margin-top:12px;">
+    <div class="info-box-label">🍽 Breakfast</div>
+    English Breakfast opens at 6:30 AM — Meal Included.
+  </div>
+  <div class="section-label">Schedule</div>
+  <div class="schedule-wrapper">
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">6:30</div><div class="time-sub">AM</div></div>
+      <div class="schedule-dot meal"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">English Breakfast opens</div>
+        <div class="schedule-tags"><span class="tag meal-inc">Meal Included</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">8:00</div><div class="time-sub">AM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Coach departs — Windsor Castle</div>
+        <div class="schedule-desc">Guides narrate the drive to Windsor.</div>
+        <div class="schedule-tags"><span class="tag group-tour">Group Tour</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">10:30</div><div class="time-sub">AM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Windsor Castle</div>
+        <div class="schedule-desc">Oldest occupied castle in the world. St George's Chapel (Queen Elizabeth II buried here), State Apartments with audio guide.</div>
+        <div class="schedule-tags"><span class="tag group-tour">Group Tour</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">12:30</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot free"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Free time in Windsor town</div>
+        <div class="schedule-desc">Lunch on own. Long Walk vista at Cambridge Gate (5 min walk), Crooked House, Windsor Royal Shopping Centre, The Two Brewers pub.</div>
+        <div class="schedule-tags"><span class="tag meal-own">Meal on Own</span><span class="tag free-time">Free Time</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">2:30</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">&#x26A0; Meet at Windsor &amp; Eton Central — coach departs &nbsp;<a href="https://www.google.com/maps/search/?api=1&query=Windsor+and+Eton+Central+Station+Windsor" target="_blank" style="color:#C9A84C;font-size:12px;text-decoration:none;">&#x1F4CD; Map</a></div>
+        <div class="schedule-desc">Replica train outside Windsor &amp; Eton Central in the Windsor Royal Shopping Centre. Do not be late.</div>
+        <div class="schedule-tags"><span class="tag assemble">Don't Miss</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">~4:00</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot free"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Return to hotel — free afternoon</div>
+        <div class="schedule-tags"><span class="tag free-time">Free Time</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">Evening</div></div>
+      <div class="schedule-dot show"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Split evening</div>
+        <div class="schedule-tags"><span class="tag free-time">See below</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="split-card">
+    <div class="split-label">🎤 Friday Split Evening</div>
+    <div class="split-grid">
+      <div class="split-cell concert">
+        <div class="split-who">KATIE · ALICIA · LILY</div>
+        <div class="split-name">Harry Styles &nbsp;<a href="https://www.google.com/maps/search/?api=1&query=Wembley+Stadium+London" target="_blank" style="color:#C9A84C;font-size:12px;text-decoration:none;">&#x1F4CD; Map</a></div>
+        <div class="split-times">Wembley Stadium<br>Doors 5:00 PM<br>Shania Twain 7:20 PM<br>Harry ~8:30 PM</div>
+      </div>
+      <div class="split-cell own">
+        <div class="split-who">GREG · DEVON · GAIL</div>
+        <div class="split-name">Evening on Own</div>
+        <div class="split-times">Dinner &amp; independent exploring — see Companion Guide</div>
+      </div>
+    </div>
+  </div>
+  <div class="info-box tip">
+    <div class="info-box-label">🚇 Wembley transit</div>
+    Bakerloo line from Piccadilly Circus → Baker Street, then Jubilee/Metropolitan line to Wembley Park. ~45 min. Depart hotel by 4:00 PM for a comfortable arrival.
+  </div>
+</div>
+
+<!-- ══ DAY 5: SATURDAY ══ -->
+<div id="day5" class="day-panel content">
+  <div class="day-hero">
+    <div class="day-hero-eyebrow">Day 5 · Saturday, June 27</div>
+    <div class="day-hero-title">The London Tattoo</div>
+    <div class="day-hero-sub">Free morning · Lily performs at ExCeL this evening</div>
+    <div class="day-hero-tags">
+      <span class="hero-badge lily">🥁 Lily Performs</span>
+      <span class="hero-badge group">VIP Pre-Show</span>
+      <span class="hero-badge free">Free Morning</span>
+    </div>
+  </div>
+  <div class="info-box note" style="margin-top:12px;">
+    <div class="info-box-label">🍽 Breakfast</div>
+    English Breakfast opens at 7:00 AM — Meal Included.
+  </div>
+
+  <div class="section-label">Morning — Free Until 3:30 PM</div>
+  <div class="tbd-card">
+    <div class="tbd-icon">🗺️</div>
+    <div class="tbd-title">Saturday Morning — TBD</div>
+    <div class="tbd-desc">Best options: British Museum (Tower Hill → Holborn, 20 min, free), V&A (Tower Hill → South Kensington, 30 min, free), Tate Modern (walkable, free), Portobello Road Market/Notting Hill (30 min Tube, great for shopping), or Kew Gardens (District line, ~45 min, ~£20, stunning in June). Be back at the hotel in time for the 4:00 PM coach.</div>
+  </div>
+  <div class="info-box warn">
+    <div class="info-box-label">⚠ Important</div>
+    Be back at the hotel by 3:15 PM. Missing the motorcoach means missing VIP pre-show access — you cannot be guaranteed entry to VIP events if not on the coach.
+  </div>
+
+  <div class="section-label">Afternoon & Evening</div>
+  <div class="highlight-card">
+    <div class="card-cap tattoo">
+      <div class="cap-eyebrow">🥁 Lily Performs</div>
+      <div class="cap-title">The London Tattoo — Live Show</div>
+    </div>
+    <div class="card-body-light">
+      <div class="card-desc">Marching Mizzou performs alongside His Majesty's Royal Marines Band and an international slate of bands. VIP pre-show dinner included.</div>
+      <div class="card-pills">
+        <span class="pill tattoo">📍 ExCeL London</span>
+        <span class="pill tattoo">🕖 7:00 PM Show</span>
+        <span class="pill neutral">🕗 ~8:53 PM Ends</span>
+      </div>
+    </div>
+  </div>
+  <div class="schedule-wrapper">
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">3:30</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Meet in hotel lobby — coach to ExCeL &nbsp;<a href="https://www.google.com/maps/search/?api=1&query=ExCeL+London+Royal+Victoria+Dock" target="_blank" style="color:#C9A84C;font-size:12px;text-decoration:none;">&#x1F4CD; Map</a></div>
+        <div class="schedule-desc">If missed: DLR from Tower Gateway to Custom House (~20 min). Note you may not have VIP pre-show access if not on the coach.</div>
+        <div class="schedule-tags"><span class="tag assemble">Don't Miss Coach</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">~5:00</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot meal"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">VIP Pre-Show events &amp; dinner at ExCeL</div>
+        <div class="schedule-desc">Details still being finalised for this evening.</div>
+        <div class="schedule-tags"><span class="tag meal-inc">Meal Included</span><span class="tag group-tour">VIP Event</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">7:00</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot lily"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">⭐ The London Tattoo — Live Show</div>
+        <div class="schedule-desc">Marching Mizzou performs alongside His Majesty's Royal Marines Band, Collingwood and an international slate of bands. Lily is in the show!</div>
+        <div class="schedule-tags"><span class="tag lily-perf">Lily Performs</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">~8:53</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">9:15 PM — Tattoo ends — depart by motorcoach</div>
+      </div>
+    </div>
+  </div>
+  <div class="info-box tip">
+    <div class="info-box-label">📍 Plan a meeting point</div>
+    Lily's band travels to ExCeL independently. Plan a post-show meeting spot in advance — it will be busy after the show.
+  </div>
+</div>
+
+<!-- ══ DAY 6: SUNDAY ══ -->
+<div id="day6" class="day-panel content">
+  <div class="day-hero">
+    <div class="day-hero-eyebrow">Day 6 · Sunday, June 28</div>
+    <div class="day-hero-title">Palace Parade & Farewell Dinner</div>
+    <div class="day-hero-sub">Lily marches on The Mall · The Fable, Farringdon</div>
+    <div class="day-hero-tags">
+      <span class="hero-badge lily">🎷 Palace Parade</span>
+      <span class="hero-badge group">Farewell Dinner</span>
+      <span class="hero-badge free">Free Morning</span>
+    </div>
+  </div>
+  <div class="info-box note" style="margin-top:12px;">
+    <div class="info-box-label">🍽 Breakfast</div>
+    English Breakfast opens at 7:00 AM — Meal Included.
+  </div>
+  <div class="section-label">Morning — Free</div>
+  <div class="tbd-card">
+    <div class="tbd-icon">☕</div>
+    <div class="tbd-title">Sunday Morning — TBD</div>
+    <div class="tbd-desc">Free morning before the City of London walking tour. Good options: a leisurely breakfast, a stroll around Tower Bridge and Shad Thames, or a quick visit to one of the nearby museums. Be ready for the 9:00 AM tour departure.</div>
+  </div>
+  <div class="section-label">Schedule</div>
+  <div class="schedule-wrapper">
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">7:00</div><div class="time-sub">AM</div></div>
+      <div class="schedule-dot meal"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">English Breakfast</div>
+        <div class="schedule-tags"><span class="tag meal-inc">Meal Included</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">9:00</div><div class="time-sub">AM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Guided City of London walking tour</div>
+        <div class="schedule-desc">Depart with whisper headsets — tracing Roman 'Londinium'. Travel by Tube to Guildhall to begin.</div>
+        <div class="schedule-tags"><span class="tag group-tour">Group Tour</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">~12:30</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot meal"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Lunch on own — Leadenhall Market</div>
+        <div class="schedule-desc">Photogenic Victorian covered market — a London classic.</div>
+        <div class="schedule-tags"><span class="tag meal-own">Meal on Own</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">12:30</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Tube to St James's Park for Palace Parade</div>
+        <div class="schedule-desc">Monument → St James's Park station.</div>
+        <div class="schedule-tags"><span class="tag group-tour">Group Tour</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">1:00</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot lily"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">&#x2605; Palace Parade Review — The Mall &nbsp;<a href="https://www.google.com/maps/search/?api=1&query=The+Mall+London+Buckingham+Palace" target="_blank" style="color:#C9A84C;font-size:12px;text-decoration:none;">&#x1F4CD; Map</a></div>
+        <div class="schedule-desc">National Marching Music Day featuring Marching Mizzou and 30+ bands on The Mall in front of Buckingham Palace.</div>
+        <div class="schedule-tags"><span class="tag lily-perf">Lily Performs</span><span class="tag group-tour">Group Tour</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">~4:30</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot lily"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">DrumLine London — follows directly after the parade</div>
+        <div class="schedule-tags"><span class="tag lily-perf">Lily Performs</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">4:00</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Depart by Tube to hotel for rest</div>
+        <div class="schedule-desc">Embankment → Tower Hill. Whisper headsets collected upon return.</div>
+        <div class="schedule-tags"><span class="tag group-tour">Group Tour</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">5:30</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Depart hotel by Tube — Farewell Dinner</div>
+        <div class="schedule-desc">Tower Hill → Farringdon.</div>
+        <div class="schedule-tags"><span class="tag group-tour">Group Tour</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">6:00</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot meal"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">7:00 PM — Farewell Dinner — The Fable &nbsp;<a href="https://www.google.com/maps/search/?api=1&query=The+Fable+Bar+Restaurant+Farringdon+London" target="_blank" style="color:#C9A84C;font-size:12px;text-decoration:none;">📍 Map</a></div>
+        <div class="schedule-tags"><span class="tag meal-inc">Meal Included</span><span class="tag group-tour">Group Event</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">8:00</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot free"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Return to hotel or stay out longer</div>
+        <div class="schedule-desc">Tube: Farringdon → Tower Hill. Note: London pubs and restaurants close earlier on Sundays (often ~10 PM).</div>
+        <div class="schedule-tags"><span class="tag free-time">Free Time</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">Evening</div></div>
+      <div class="schedule-dot free"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Sunday evening — likely a wind-down night</div>
+        <div class="schedule-desc">A nearby pub is a great option. The Hoop & Grapes (5 min walk) or St Katharine Docks for a last riverside drink.</div>
+        <div class="schedule-tags"><span class="tag free-time">Free Time</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="info-box purple">
+    <div class="info-box-label">🎷 Lily's evening</div>
+    Lily's band departs Temple Pier at 7:15 PM for their own farewell BBQ River Cruise — dinner included for the band. Catch up before the cruise if possible!
+  </div>
+</div>
+
+<!-- ══ DAY 7: DEPARTURE ══ -->
+<div id="day7" class="day-panel content">
+  <div class="day-hero">
+    <div class="day-hero-eyebrow">Day 8 · Monday, June 29</div>
+    <div class="day-hero-title">Departure Day</div>
+    <div class="day-hero-sub">AA 733 · LHR 12:00 PM · Home by 7:00 PM</div>
+    <div class="day-hero-tags">
+      <span class="hero-badge group">LHR 12:00 PM</span>
+    </div>
+  </div>
+  <div class="info-box note" style="margin-top:12px;">
+    <div class="info-box-label">🍽 Breakfast</div>
+    English Breakfast opens at 6:30 AM — Meal Included.
+  </div>
+  <div class="section-label">Schedule</div>
+  <div class="schedule-wrapper">
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">6:00</div><div class="time-sub">AM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Group flight travelers depart by coach with boxed breakfast</div>
+        <div class="schedule-desc">Devon &amp; Alicia depart on their own flights — confirm time with them.</div>
+        <div class="schedule-tags"><span class="tag group-tour">Group Departure</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">6:30</div><div class="time-sub">AM</div></div>
+      <div class="schedule-dot meal"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">English Breakfast opens</div>
+        <div class="schedule-tags"><span class="tag meal-inc">Meal Included</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">~8:30</div><div class="time-sub">AM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Depart hotel for Heathrow — Greg, Katie &amp; Gail</div>
+        <div class="schedule-desc">Allow 90 min minimum. Tube: Tower Hill → Paddington, then Heathrow Express (~15 min). Or pre-arranged car. Check out by 12:00 PM latest.</div>
+        <div class="schedule-tags"><span class="tag transport">Independent Transport</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">12:00</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Depart LHR — AA 733, Premium Economy</div>
+        <div class="schedule-desc">LHR → Charlotte (CLT) · 8h 55m</div>
+        <div class="schedule-tags"><span class="tag transport">Independent Transport</span></div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">3:55</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Arrive Charlotte (CLT) — 2h 05m connection</div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">6:00</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot assemble"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Depart Charlotte — AA 2686, Economy</div>
+        <div class="schedule-desc">CLT → St Louis (STL) · 2h</div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="time-col"><div class="time-text">7:00</div><div class="time-sub">PM</div></div>
+      <div class="schedule-dot meal"></div>
+      <div class="schedule-body">
+        <div class="schedule-title">Arrive home — St Louis (STL)</div>
+        <div class="schedule-desc">MIZ – LDN. Welcome home!</div>
+      </div>
+    </div>
+  </div>
+  <div class="info-box tip">
+    <div class="info-box-label">💡 Last night tip</div>
+    Say goodbye to Lily on Sunday before she boards the band's farewell cruise — she'll depart on her own group bus Monday morning.
+  </div>
+</div>
+
+</div><!-- end itinerary-panel -->
+
+<!-- COMPANION GUIDE PANEL -->
+<div id="guide-panel" class="panel">
+  <div class="content" style="padding-top: 18px;">
+    <div style="font-family: 'Playfair Display', serif; font-size: 24px; color: var(--navy); margin-bottom: 5px;">Companion Guide</div>
+    <div style="font-size: 14px; color: var(--gray); margin-bottom: 18px;">Quick reference by neighborhood</div>
+    <div class="guide-section">
+      <div class="guide-section-title">🏰 Tower Bridge / City</div>
+      <div class="guide-item"><div class="guide-item-icon">⭐</div><div><div class="guide-item-name">Sky Garden</div><div class="guide-item-desc">Free panoramic rooftop garden. Book at skygarden.london. Perfect for pre-dinner drinks any evening.</div></div></div>
+      <div class="guide-item"><div class="guide-item-icon">🍺</div><div><div class="guide-item-name">The Hoop & Grapes</div><div class="guide-item-desc">Survived the Great Fire of 1666. One of London's oldest pubs. 5 min from hotel.</div></div></div>
+      <div class="guide-item"><div class="guide-item-icon">💎</div><div><div class="guide-item-name">Splurge: Oblix at The Shard</div><div class="guide-item-desc">32nd floor Thames views at sunset. 10 min walk. Special occasion dinner. oblixrestaurant.com</div></div></div>
+    </div>
+    <div class="guide-section">
+      <div class="guide-section-title">🛒 South Bank</div>
+      <div class="guide-item"><div class="guide-item-icon">⭐</div><div><div class="guide-item-name">Borough Market</div><div class="guide-item-desc">London's finest food market. Roots to 12th century. Go hungry. Great for Thu lunch after Lily's performance.</div></div></div>
+      <div class="guide-item"><div class="guide-item-icon">🐾</div><div><div class="guide-item-name">The Black Dog, Vauxhall</div><div class="guide-item-desc">Taylor Swift's Tortured Poets pub. Award-winning freehouse. Best scotch egg in London. 112 Vauxhall Walk — 20 min from hotel. Thu afternoon ideal for Katie/Alicia/Lily before Hamilton.</div></div></div>
+      <div class="guide-item"><div class="guide-item-icon">🎨</div><div><div class="guide-item-name">Tate Modern</div><div class="guide-item-desc">World-class modern art, free. Turbine Hall always has a major installation. 20 min walk from hotel.</div></div></div>
+    </div>
+    <div class="guide-section">
+      <div class="guide-section-title">🎭 West End</div>
+      <div class="guide-item"><div class="guide-item-icon">✅</div><div><div class="guide-item-name">Hamilton — CONFIRMED</div><div class="guide-item-desc">Victoria Palace Theatre · Thu June 25 · 7:30 PM. Depart hotel 6:30 PM. ~2h 45m with interval.</div></div></div>
+      <div class="guide-item"><div class="guide-item-icon">🥃</div><div><div class="guide-item-name">Whisky Bars — Greg & Devon (Fri)</div><div class="guide-item-desc">The Whisky Exchange Bar (South Bank) → Boisdale of Bishopsgate (300+ Scotches, live jazz) → Black Rock (Shoreditch, bar built around an oak trunk). See full Companion Guide for details.</div></div></div>
+    </div>
+    <div class="guide-section">
+      <div class="guide-section-title">🎤 Harry Styles — Wembley</div>
+      <div class="guide-item"><div class="guide-item-icon">📍</div><div><div class="guide-item-name">Wembley Stadium, Friday June 26</div><div class="guide-item-desc">Doors 5:00 PM · Shania Twain 7:20 PM · Harry Styles ~8:30 PM. Tube: Bakerloo from Piccadilly Circus → Baker Street, then Jubilee/Metropolitan → Wembley Park (~45 min). Depart hotel by 4:00 PM.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- FLIGHTS PANEL -->
+<div id="flights-panel" class="panel">
+  <div class="content" style="padding-top: 18px;">
+    <div style="font-family: 'Playfair Display', serif; font-size: 24px; color: var(--navy); margin-bottom: 5px;">Flights</div>
+    <div style="font-size: 14px; color: var(--gray); margin-bottom: 18px;">Greg · Katie · Gail</div>
+    <div class="flight-card">
+      <div class="flight-header"><div class="flight-header-label">✈ Greg &middot; Katie &middot; Gail &mdash; Outbound</div><div class="flight-header-date">Mon June 22 → Tue June 23</div></div>
+      <div class="flight-leg"><div class="flight-airport">STL</div><div class="flight-arrow">→</div><div class="flight-airport">CLT</div><div class="flight-info"><div class="flight-number"><a href="https://flightaware.com/live/flight/AAL2731/history/20260622" target="_blank" style="color:#1B3A6B;text-decoration:underline;">AA 2731</a></div><div class="flight-times">6:13 PM → 9:15 PM · Economy</div></div></div>
+      <div class="flight-leg"><div class="flight-airport">CLT</div><div class="flight-arrow">→</div><div class="flight-airport">LHR</div><div class="flight-info"><div class="flight-number"><a href="https://flightaware.com/live/flight/AAL734/history/20260622" target="_blank" style="color:#1B3A6B;text-decoration:underline;">AA 734</a></div><div class="flight-times">11:05 PM → 12:10 PM+1 · Premium Economy</div></div></div>
+    </div>
+    <div class="flight-card">
+      <div class="flight-header"><div class="flight-header-label">✈ Greg &middot; Katie &middot; Gail &mdash; Return</div><div class="flight-header-date">Mon June 29</div></div>
+      <div class="flight-leg"><div class="flight-airport">LHR</div><div class="flight-arrow">→</div><div class="flight-airport">CLT</div><div class="flight-info"><div class="flight-number"><a href="https://flightaware.com/live/flight/AAL733/history/20260629" target="_blank" style="color:#1B3A6B;text-decoration:underline;">AA 733</a></div><div class="flight-times">12:00 PM → 3:55 PM · Premium Economy</div></div></div>
+      <div class="flight-leg"><div class="flight-airport">CLT</div><div class="flight-arrow">→</div><div class="flight-airport">STL</div><div class="flight-info"><div class="flight-number"><a href="https://flightaware.com/live/flight/AAL2686/history/20260629" target="_blank" style="color:#1B3A6B;text-decoration:underline;">AA 2686</a></div><div class="flight-times">6:00 PM → 7:00 PM · Economy</div></div></div>
+    </div>
+    <div class="flight-card">
+      <div class="flight-header"><div class="flight-header-label">✈ Devon &amp; Alicia — Outbound</div><div class="flight-header-date">Mon June 22 → Tue June 23</div></div>
+      <div class="flight-leg"><div class="flight-airport">COU</div><div class="flight-arrow">→</div><div class="flight-airport">ORD</div><div class="flight-info"><div class="flight-number"><a href="https://flightaware.com/live/flight/ENY3479/history/20260622" target="_blank" style="color:#1B3A6B;text-decoration:underline;">AA Eagle 3479</a></div><div class="flight-times">6:47 PM · Economy</div></div></div>
+      <div class="flight-leg"><div class="flight-airport">ORD</div><div class="flight-arrow">→</div><div class="flight-airport">LHR</div><div class="flight-info"><div class="flight-number"><a href="https://flightaware.com/live/flight/AAL98/history/20260622" target="_blank" style="color:#1B3A6B;text-decoration:underline;">AA 98</a></div><div class="flight-times">10:30 PM → 12:15 PM+1</div></div></div>
+    </div>
+
+    <div class="flight-card">
+      <div class="flight-header"><div class="flight-header-label">✈ Lily — Outbound</div><div class="flight-header-date">Mon June 22 → Tue June 23</div></div>
+      <div class="flight-leg"><div class="flight-airport">STL</div><div class="flight-arrow">→</div><div class="flight-airport">FRA</div><div class="flight-info"><div class="flight-number"><a href="https://flightaware.com/live/flight/DLH449/history/20260622" target="_blank" style="color:#1B3A6B;text-decoration:underline;">LH 0449</a></div><div class="flight-times">3:30 PM → 7:25 AM+1</div></div></div>
+      <div class="flight-leg"><div class="flight-airport">FRA</div><div class="flight-arrow">→</div><div class="flight-airport">LHR</div><div class="flight-info"><div class="flight-number"><a href="https://flightaware.com/live/flight/DLH904/history/20260623" target="_blank" style="color:#1B3A6B;text-decoration:underline;">LH 0904</a></div><div class="flight-times">10:00 AM → 10:40 AM</div></div></div>
+    </div>
+    <div class="flight-card">
+      <div class="flight-header"><div class="flight-header-label">✈ Lily — Return</div><div class="flight-header-date">Mon June 29</div></div>
+      <div class="flight-leg"><div class="flight-airport">LHR</div><div class="flight-arrow">→</div><div class="flight-airport">FRA</div><div class="flight-info"><div class="flight-number"><a href="https://flightaware.com/live/flight/DLH921/history/20260629" target="_blank" style="color:#1B3A6B;text-decoration:underline;">LH 0921</a></div><div class="flight-times">6:30 AM → 9:05 AM</div></div></div>
+      <div class="flight-leg"><div class="flight-airport">FRA</div><div class="flight-arrow">→</div><div class="flight-airport">STL</div><div class="flight-info"><div class="flight-number"><a href="https://flightaware.com/live/flight/DLH448/history/20260629" target="_blank" style="color:#1B3A6B;text-decoration:underline;">LH 0448</a></div><div class="flight-times">10:40 AM → 1:25 PM</div></div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- HOTELS PANEL -->
+<div id="hotels-panel" class="panel">
+  <div class="content" style="padding-top:16px">
+
+    <div class="hotel-card">
+      <div class="hotel-hdr group">
+        <div class="hotel-ey">&#x1F3E8; Greg &middot; Katie &middot; Gail &middot; Devon &middot; Alicia</div>
+        <div class="hotel-name">Novotel London Tower Bridge</div>
+      </div>
+      <div class="hotel-body">
+        <div class="hrow"><div class="hrow-icon">&#x1F4CD;</div><div><div class="hrow-label">Address</div><div class="hrow-val"><a href="https://www.google.com/maps/search/?api=1&query=Novotel+Tower+Bridge+10+Pepys+Street+London+EC3N+2NR" target="_blank" style="color:#1B3A6B;text-decoration:underline;">10 Pepys Street, London EC3N 2NR</a></div></div></div>
+        <div class="hrow"><div class="hrow-icon">&#x1F4DE;</div><div><div class="hrow-label">Phone</div><div class="hrow-val"><a href="tel:+442076600675" style="color:#1B3A6B;text-decoration:underline;">+44 20 7660 0675</a> &nbsp;&middot;&nbsp; Option 3 for front desk</div></div></div>
+        <div class="hrow"><div class="hrow-icon">&#x1F687;</div><div><div class="hrow-label">Nearest Tube</div><div class="hrow-val">Tower Hill (District &amp; Circle) &mdash; 8 min walk</div></div></div>
+        <div class="hrow"><div class="hrow-icon">&#x1F4C5;</div><div><div class="hrow-label">Dates</div><div class="hrow-val">Check-in Tue June 23 (3:00 PM) &nbsp;&middot;&nbsp; Check-out Mon June 29</div></div></div>
+        <div class="hrow"><div class="hrow-icon">&#x1F373;</div><div><div class="hrow-label">Breakfast</div><div class="hrow-val">English Breakfast included daily. 6:30 AM most days &middot; 7:00 AM Sat &amp; Sun &middot; Until 11:00 AM on Saturday.</div></div></div>
+        <div class="hrow"><div class="hrow-icon">&#x26A0;&#xFE0F;</div><div><div class="hrow-label">Driver Note</div><div class="hrow-val">Tell your driver: <em>Novotel Tower Bridge on Pepys Street</em> &mdash; NOT Novotel London Bridge.</div></div></div>
+        <div class="hrow"><div class="hrow-icon">&#x1F5FA;</div><div><div class="hrow-label">Nearby</div><div class="hrow-val">Tower Bridge (5 min) &middot; Sky Garden (10 min) &middot; Borough Market (15 min) &middot; The Hoop &amp; Grapes pub (5 min)</div></div></div>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-hdr lily">
+        <div class="hotel-ey">&#x1F3B7; Lily &mdash; Marching Mizzou Band 140</div>
+        <div class="hotel-name">Zedwell Piccadilly / Moxy London Piccadilly</div>
+      </div>
+      <div class="hotel-body">
+        <div class="hrow"><div class="hrow-icon">&#x1F4CD;</div><div><div class="hrow-label">Zedwell Address</div><div class="hrow-val"><a href="https://www.google.com/maps/search/?api=1&query=Zedwell+Piccadilly+Great+Windmill+Street+London+W1D+7DH" target="_blank" style="color:#7C3AED;text-decoration:underline;">Trocadero, Great Windmill Street, London W1D 7DH</a></div></div></div>
+        <div class="hrow"><div class="hrow-icon">&#x1F4CD;</div><div><div class="hrow-label">Moxy Address (GGs)</div><div class="hrow-val"><a href="https://www.google.com/maps/search/?api=1&query=Moxy+London+Piccadilly+1+Jermyn+Street+London" target="_blank" style="color:#7C3AED;text-decoration:underline;">1 Jermyn Street, London SW1Y 4UH</a></div></div></div>
+        <div class="hrow"><div class="hrow-icon">&#x1F687;</div><div><div class="hrow-label">Nearest Tube</div><div class="hrow-val">Piccadilly Circus (Piccadilly &amp; Bakerloo) &mdash; 2 min walk</div></div></div>
+        <div class="hrow"><div class="hrow-icon">&#x1F4CF;</div><div><div class="hrow-label">Distance from Your Hotel</div><div class="hrow-val">~4 miles &middot; approx 30 min by Tube (Tower Hill &rarr; Piccadilly Circus)</div></div></div>
+        <div class="hrow"><div class="hrow-icon">&#x1F4C5;</div><div><div class="hrow-label">Dates</div><div class="hrow-val">Check-in Tue June 23 &middot; Check-out Mon June 29 (early group bus to airport)</div></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-item active" onclick="switchPanel('itinerary')"><span class="nav-icon">📅</span><span class="nav-label">Itinerary</span></button>
+  <button class="nav-item" onclick="switchPanel('guide')"><span class="nav-icon">🗺</span><span class="nav-label">Guide</span></button>
+  <button class="nav-item" onclick="switchPanel('flights')"><span class="nav-icon">✈️</span><span class="nav-label">Flights</span></button>
+  <button class="nav-item" onclick="switchPanel('hotels')"><span class="nav-icon">&#x1F3E8;</span><span class="nav-label">Hotels</span></button>
+</nav>
+
+<script>
+  const dayPanels = ['day1','day2','day3','day4','day5','day6','day7'];
+  const panels = ['itinerary','guide','flights','hotels'];
+  function switchDay(id) {
+    dayPanels.forEach(d => { const e = document.getElementById(d); if(e) e.classList.remove('active'); });
+    const t = document.getElementById(id); if(t) t.classList.add('active');
+    document.querySelectorAll('.day-tab').forEach((tab,i) => tab.classList.toggle('active', dayPanels[i]===id));
+  }
+  function switchPanel(p) {
+    panels.forEach(id => { const e = document.getElementById(id+'-panel'); if(e) e.classList.remove('active'); });
+    const t = document.getElementById(p+'-panel'); if(t) t.classList.add('active');
+    document.querySelector('.day-nav').style.display = p==='itinerary' ? 'block' : 'none';
+    document.querySelectorAll('.nav-item').forEach((el,i) => el.classList.toggle('active', panels[i]===p));
+  }
+  function toggleCollapse(id) {
+    const body = document.getElementById('collapse-'+id);
+    const chev = document.getElementById('chevron-'+id);
+    const open = body.classList.toggle('open');
+    if(chev) chev.classList.toggle('open', open);
+  }
+  switchDay('day1');
+</script>
+</body>
+</html>

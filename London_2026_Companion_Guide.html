@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>London 2026 · Companion Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1B3A6B;--gold:#C9A84C;--gold-light:#F5E6C0;--cream:#FDFAF4;
+  --white:#FFFFFF;--dark:#111827;--gray:#4B5563;--gray-light:#F3F4F6;
+  --gray-mid:#9CA3AF;--green:#166534;--green-light:#DCFCE7;--green-mid:#16A34A;
+  --red:#7F1D1D;--red-light:#FEE2E2;--purple:#4C1D95;--purple-light:#EDE9FE;
+  --purple-mid:#7C3AED;--amber:#92400E;--amber-light:#FEF3C7;--amber-mid:#D97706;
+  --blue:#1E40AF;--blue-light:#DBEAFE;--radius:13px;
+  --shadow:0 2px 14px rgba(27,58,107,0.10);--shadow-lg:0 6px 24px rgba(27,58,107,0.15);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans',sans-serif;background:#E8EAF0;color:var(--dark);min-height:100vh;padding-bottom:88px;font-size:15px}
+
+/* TOP BAR */
+.top-bar{position:sticky;top:0;z-index:100;background:var(--navy);padding:13px 18px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,0.2)}
+.top-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold)}
+.top-sub{font-size:12px;color:rgba(255,255,255,0.55);letter-spacing:0.07em;margin-top:2px}
+.top-badge{font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;background:rgba(201,168,76,0.2);color:var(--gold);border:1px solid rgba(201,168,76,0.3);white-space:nowrap}
+
+/* CONTENT */
+.content{max-width:520px;margin:0 auto;padding:0 15px}
+.panel{display:none}.panel.active{display:block;animation:fu 0.25s ease}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* SECTION LABEL */
+.slabel{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray-mid);margin:18px 0 10px}
+
+/* NEIGHBORHOOD COLLAPSIBLE */
+.nbhd{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);margin:10px 0;overflow:hidden}
+.nbhd-hdr{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;cursor:pointer;user-select:none;border-bottom:3px solid transparent;transition:border-color 0.2s}
+.nbhd-hdr.open{border-bottom-color:var(--gold)}
+.nbhd-left{display:flex;align-items:center;gap:12px}
+.nbhd-icon{font-size:26px;flex-shrink:0}
+.nbhd-name{font-family:'Playfair Display',serif;font-size:17px;color:var(--navy)}
+.nbhd-days{font-size:11px;color:var(--gray-mid);margin-top:2px;letter-spacing:0.03em}
+.nbhd-chev{font-size:20px;color:var(--gold);transition:transform 0.25s;flex-shrink:0}
+.nbhd-chev.open{transform:rotate(90deg)}
+.nbhd-body{overflow:hidden;max-height:0;transition:max-height 0.4s ease}
+.nbhd-body.open{max-height:3000px}
+.nbhd-content{padding:0 18px 16px}
+
+/* YOU'RE HERE BANNER */
+.here-banner{background:linear-gradient(135deg,var(--navy),#243F72);border-radius:10px;padding:11px 15px;margin:12px 0 10px;display:flex;align-items:center;gap:10px}
+.here-icon{font-size:18px;flex-shrink:0}
+.here-text{font-size:13px;color:rgba(255,255,255,0.85);line-height:1.5}
+.here-text strong{color:var(--gold)}
+
+/* TWO-TONE HIGHLIGHT CARDS */
+.hcard{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin:8px 0}
+.hcard-cap{padding:11px 16px 9px}
+.hcard-cap.gold{background:#1A2E00;border-bottom:3px solid var(--gold)}
+.hcard-cap.amber{background:#2D1A00;border-bottom:3px solid var(--amber-mid)}
+.hcard-cap.green{background:#003320;border-bottom:3px solid var(--green-mid)}
+.hcard-cap.purple{background:#1E0A47;border-bottom:3px solid var(--purple-mid)}
+.hcard-cap.blue{background:#0A1F47;border-bottom:3px solid #60A5FA}
+.hcard-cap.red{background:#3B0A14;border-bottom:3px solid #F87171}
+.cap-ey{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:3px}
+.hcard-cap.gold .cap-ey{color:var(--gold)}
+.hcard-cap.amber .cap-ey{color:#FCD34D}
+.hcard-cap.green .cap-ey{color:#86EFAC}
+.hcard-cap.purple .cap-ey{color:#C4B5FD}
+.hcard-cap.blue .cap-ey{color:#93C5FD}
+.hcard-cap.red .cap-ey{color:#FCA5A5}
+.cap-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--white);line-height:1.2}
+.hcard-body{background:var(--white);padding:12px 16px 14px}
+.hcard-desc{font-size:14px;line-height:1.65;color:#1F2937}
+.hcard-meta{font-size:12px;color:var(--gray);margin-top:6px;line-height:1.5}
+
+/* SIMPLE ITEM LIST */
+.item-list{margin:8px 0}
+.item{display:flex;gap:11px;padding:10px 0;border-bottom:1px solid var(--gray-light);align-items:flex-start}
+.item:last-child{border-bottom:none}
+.item-icon{font-size:19px;flex-shrink:0;margin-top:1px}
+.item-name{font-size:14px;font-weight:600;color:var(--navy)}
+.item-desc{font-size:13px;color:var(--gray);line-height:1.55;margin-top:2px}
+.item-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;margin-top:5px;letter-spacing:0.04em;text-transform:uppercase}
+.itag-gold{background:var(--gold-light);color:var(--amber)}
+.itag-green{background:var(--green-light);color:var(--green)}
+.itag-purple{background:var(--purple-light);color:var(--purple)}
+.itag-blue{background:var(--blue-light);color:var(--blue)}
+
+/* DEVON CALLOUT */
+.devon-box{background:#E8F5E9;border-left:4px solid #2E7D32;border-radius:var(--radius);padding:12px 16px;margin:8px 0;font-size:14px;color:var(--dark);line-height:1.65}
+.devon-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#2E7D32;margin-bottom:5px}
+
+/* HISTORY NOTE */
+.hist-box{background:var(--blue-light);border-left:4px solid #3B82F6;border-radius:var(--radius);padding:12px 16px;margin:8px 0;font-size:13px;color:var(--dark);line-height:1.65}
+.hist-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:5px}
+
+/* INFO BOX */
+.info-box{border-radius:var(--radius);padding:12px 16px;margin:8px 0;font-size:14px;color:var(--dark);line-height:1.65}
+.info-box.tip{background:#EFF6FF;border-left:4px solid #3B82F6}
+.info-box.note{background:var(--gold-light);border-left:4px solid var(--gold)}
+.info-box.warn{background:var(--amber-light);border-left:4px solid var(--amber-mid)}
+.info-box.lily{background:var(--purple-light);border-left:4px solid var(--purple-mid)}
+.ibox-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px}
+.info-box.tip .ibox-label{color:#1D4ED8}
+.info-box.note .ibox-label{color:var(--amber)}
+.info-box.warn .ibox-label{color:var(--amber)}
+.info-box.lily .ibox-label{color:var(--purple-mid)}
+
+/* TRANSIT PILL ROW */
+.transit-row{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 4px}
+.t-pill{font-size:12px;font-weight:600;padding:5px 12px;border-radius:20px;background:var(--navy);color:var(--gold)}
+
+/* LISTS TAB */
+.list-section{background:var(--white);border-radius:var(--radius);padding:15px 17px;margin:8px 0;box-shadow:var(--shadow)}
+.list-title{font-family:'Playfair Display',serif;font-size:17px;color:var(--navy);margin-bottom:10px;padding-bottom:7px;border-bottom:2px solid var(--gold-light)}
+.list-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray-light);align-items:flex-start;font-size:14px}
+.list-item:last-child{border-bottom:none;padding-bottom:0}
+.list-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:6px}
+.list-body{flex:1;color:var(--dark);line-height:1.55}
+.list-body span{font-size:12px;color:var(--gray)}
+
+/* EXTRAS TAB */
+.whisky-card{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg);margin:8px 0}
+.whisky-cap{background:#1A0A2E;border-bottom:3px solid #8B5CF6;padding:13px 17px 11px}
+.whisky-cap-ey{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#C4B5FD;margin-bottom:3px}
+.whisky-cap-t{font-family:'Playfair Display',serif;font-size:17px;color:var(--white)}
+.whisky-body{padding:13px 17px 15px}
+.whisky-stop{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--gray-light)}
+.whisky-stop:last-child{border-bottom:none}
+.stop-num{width:26px;height:26px;border-radius:50%;background:var(--navy);color:var(--gold);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.stop-name{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.stop-loc{font-size:12px;color:var(--amber);font-weight:600;margin-bottom:3px}
+.stop-desc{font-size:13px;color:var(--gray);line-height:1.55}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid rgba(0,0,0,0.08);display:flex;justify-content:space-around;padding:10px 0 max(12px,env(safe-area-inset-bottom));z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,0.07)}
+.nitem{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 14px;border-radius:10px;background:none;border:none;font-family:inherit;transition:background 0.15s}
+.nitem:active{background:var(--gray-light)}
+.nicon{font-size:22px}
+.nlabel{font-size:11px;font-weight:500;color:var(--gray);letter-spacing:0.03em}
+.nitem.active .nlabel{color:var(--navy);font-weight:700}
+
+/* SUBHEAD DIVIDER */
+.subhead{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-mid);margin:14px 0 8px;padding-top:6px;border-top:1px solid var(--gray-light)}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div>
+    <div class="top-title">Companion Guide</div>
+    <div class="top-sub">London 2026 · Greg & Katie</div>
+  </div>
+  <div class="top-badge">June 22–29</div>
+</div>
+
+<!-- ══ NEIGHBORHOODS PANEL ══ -->
+<div id="nbhd-panel" class="panel active">
+<div class="content" style="padding-top:14px">
+
+<!-- 1. TOWER BRIDGE / CITY -->
+<div class="nbhd">
+  <div class="nbhd-hdr" onclick="toggleN('tb')">
+    <div class="nbhd-left">
+      <div class="nbhd-icon">🏰</div>
+      <div>
+        <div class="nbhd-name">Tower Bridge & the City</div>
+        <div class="nbhd-days">Your home base · All week</div>
+      </div>
+    </div>
+    <div class="nbhd-chev" id="chev-tb">›</div>
+  </div>
+  <div class="nbhd-body" id="body-tb">
+  <div class="nbhd-content">
+    <div class="here-banner">
+      <div class="here-icon">📍</div>
+      <div class="here-text"><strong>You're here:</strong> Novotel Tower Bridge, 10 Pepys Street EC3N 2NR is your home all week. The City of London is on your doorstep — one of the world's most historic square miles.</div>
+    </div>
+
+    <div class="subhead">Don't Miss</div>
+    <div class="hcard"><div class="hcard-cap gold"><div class="cap-ey">⭐ Free · 360° Views</div><div class="cap-title">Sky Garden — 20 Fenchurch Street</div></div><div class="hcard-body"><div class="hcard-desc">Free panoramic garden 35 floors above the City. Bar and restaurant. Book free tickets in advance at skygarden.london — they go fast.</div><div class="hcard-meta">📍 10 min walk from hotel · Best at sunset · Book ahead</div></div></div>
+    <div class="hcard"><div class="hcard-cap amber"><div class="cap-ey">💎 Splurge Pick</div><div class="cap-title">Oblix at The Shard</div></div><div class="hcard-body"><div class="hcard-desc">32nd floor restaurant with sweeping Thames views. The best special-occasion dinner within walking distance. Reserve well in advance.</div><div class="hcard-meta">📍 oblixrestaurant.com · ~£70–90pp · 10 min walk</div></div></div>
+
+    <div class="subhead">Food & Drink</div>
+    <div class="item-list">
+      <div class="item"><div class="item-icon">🍺</div><div><div class="item-name">The Hoop & Grapes</div><div class="item-desc">Survived the Great Fire of 1666. One of London's oldest pubs, 5 min from hotel. Good everyday pub with reliable ales.</div><span class="item-tag itag-gold">5 min walk</span></div></div>
+      <div class="item"><div class="item-icon">☕</div><div><div class="item-name">Lantana City</div><div class="item-desc">Excellent coffee and brunch near Liverpool Street. Reliable flat whites and great food.</div><span class="item-tag itag-gold">15 min walk</span></div></div>
+      <div class="item"><div class="item-icon">🍷</div><div><div class="item-name">Bravas</div><div class="item-desc">Spanish tapas and natural wine near London Bridge. Fun, convivial, and walkable. Great for an evening out.</div><span class="item-tag itag-gold">10 min walk</span></div></div>
+      <div class="item"><div class="item-icon">🌉</div><div><div class="item-name">Tower Bridge Collective</div><div class="item-desc">Food hall with great variety and amazing bridge views from the terrace. Good for lunch any day.</div><span class="item-tag itag-gold">8 min walk</span></div></div>
+    </div>
+
+    <div class="hist-box"><div class="hist-label">🏛 Roman London (Londinium)</div>The City of London is built on the original Roman settlement, founded AD 43. The wall fragments, amphitheatre (under Guildhall), and temple of Mithras (Bloomberg Space, free) are all within 20 minutes of your hotel.</div>
+
+    <div class="subhead">Transit</div>
+    <div class="transit-row">
+      <span class="t-pill">🚇 Tower Hill (District/Circle)</span>
+      <span class="t-pill">🚇 Monument (District/Circle)</span>
+      <span class="t-pill">🚶 15 min walk to Borough Market</span>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- 2. SOUTH BANK -->
+<div class="nbhd">
+  <div class="nbhd-hdr" onclick="toggleN('sb')">
+    <div class="nbhd-left">
+      <div class="nbhd-icon">🎨</div>
+      <div>
+        <div class="nbhd-name">South Bank</div>
+        <div class="nbhd-days">Wed evening · Thu lunch · Any evening</div>
+      </div>
+    </div>
+    <div class="nbhd-chev" id="chev-sb">›</div>
+  </div>
+  <div class="nbhd-body" id="body-sb">
+  <div class="nbhd-content">
+    <div class="here-banner">
+      <div class="here-icon">📍</div>
+      <div class="here-text"><strong>Best times:</strong> Thu after Lily's Tower Bridge performance (lunch at Borough Market), and any evening for the riverside walk. Wed evening is a natural after the group tour wraps.</div>
+    </div>
+
+    <div class="subhead">Don't Miss</div>
+    <div class="hcard"><div class="hcard-cap green"><div class="cap-ey">⭐ Food Market · Historic</div><div class="cap-title">Borough Market</div></div><div class="hcard-body"><div class="hcard-desc">London's finest food market with roots to the 12th century. Great street food, artisan producers, and atmosphere. Go hungry. Perfect for Thu lunch after Lily's performance.</div><div class="hcard-meta">📍 Southwark Street, SE1 · Open Mon–Sat · 15 min walk from hotel</div></div></div>
+    <div class="hcard"><div class="hcard-cap purple"><div class="cap-ey">🐾 Taylor Swift Landmark</div><div class="cap-title">The Black Dog, Vauxhall</div></div><div class="hcard-body"><div class="hcard-desc">Award-winning freehouse in Vauxhall Pleasure Gardens — referenced on The Tortured Poets Department. Excellent on its own: real ales, fairy-lit interior, best scotch egg in London. A Swiftie pilgrimage spot.</div><div class="hcard-meta">📍 112 Vauxhall Walk, SE11 · 20 min from hotel · Thu afternoon ideal for Katie, Alicia & Lily before Hamilton — Vauxhall to Victoria Palace Theatre is a 15-min walk</div></div></div>
+
+    <div class="subhead">Food & Drink</div>
+    <div class="item-list">
+      <div class="item"><div class="item-icon">🎨</div><div><div class="item-name">Tate Modern</div><div class="item-desc">World-class modern art in a converted power station. Free. The Turbine Hall always has a major installation. Rooftop restaurant has great views.</div><span class="item-tag itag-blue">Free · 20 min walk</span></div></div>
+      <div class="item"><div class="item-icon">🎭</div><div><div class="item-name">Shakespeare's Globe</div><div class="item-desc">Faithful reconstruction of the original 1599 theatre. Free to walk past; exhibition and tours available for a fee.</div><span class="item-tag itag-gold">Bankside</span></div></div>
+      <div class="item"><div class="item-icon">🍺</div><div><div class="item-name">The Anchor Bankside</div><div class="item-desc">Historic pub on the Thames with great river views. Samuel Johnson and Dr. Pepys were regulars. Perfect for a pint watching the river.</div><span class="item-tag itag-gold">Riverside · historic</span></div></div>
+    </div>
+
+    
+
+    <div class="info-box lily"><div class="ibox-label">🎷 Thu: Lily's performance area</div>After Lily's Potters Fields Park performance at noon, the whole group is within easy reach of Borough Market for lunch. The Black Dog in Vauxhall is a natural afternoon stop for Katie, Alicia & Lily before heading to Hamilton at 7:30 PM.</div>
+
+    <div class="subhead">Transit</div>
+    <div class="transit-row">
+      <span class="t-pill">🚇 London Bridge (Northern/Jubilee)</span>
+      <span class="t-pill">🚇 Southwark (Jubilee)</span>
+      <span class="t-pill">🚶 15 min walk from hotel</span>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- 3. WESTMINSTER -->
+<div class="nbhd">
+  <div class="nbhd-hdr" onclick="toggleN('wm')">
+    <div class="nbhd-left">
+      <div class="nbhd-icon">👑</div>
+      <div>
+        <div class="nbhd-name">Westminster & St James's</div>
+        <div class="nbhd-days">Wed — group tour day</div>
+      </div>
+    </div>
+    <div class="nbhd-chev" id="chev-wm">›</div>
+  </div>
+  <div class="nbhd-body" id="body-wm">
+  <div class="nbhd-content">
+    <div class="here-banner">
+      <div class="here-icon">📍</div>
+      <div class="here-text"><strong>Wed June 24:</strong> Your group tour covers this area fully — Buckingham Palace, Changing of the Guard, Westminster Abbey, walking tour. Hamilton is confirmed for <strong>Thursday evening</strong>.</div>
+    </div>
+
+    <div class="subhead">Group Tour Highlights (Wed)</div>
+    <div class="item-list">
+      <div class="item"><div class="item-icon">🏰</div><div><div class="item-name">Buckingham Palace & Changing of the Guard</div><div class="item-desc">Ceremony at 11:00 AM. Arrive by 10:15 AM for a good spot on The Mall or at the Victoria Memorial. If the Royal Standard is flying, the King is in residence.</div></div></div>
+      <div class="item"><div class="item-icon">⛪</div><div><div class="item-name">Westminster Abbey</div><div class="item-desc">Guided inside visit at 2:30 PM. Site of every Coronation since 1066, most recently May 2023. Nearly every English monarch buried here.</div></div></div>
+      <div class="item"><div class="item-icon">🗺</div><div><div class="item-name">Walking Tour Route</div><div class="item-desc">The Mall → St James's Park (pelicans!) → Horse Guards Parade → Downing Street → Big Ben → Parliament → Trafalgar Square</div></div></div>
+    </div>
+
+    <div class="subhead">Beyond the Group Tour</div>
+    <div class="item-list">
+      <div class="item"><div class="item-icon">🎭</div><div><div class="item-name">Hamilton — CONFIRMED ✅</div><div class="item-desc">Thursday June 25, 7:30 PM. Victoria Palace Theatre, Victoria Street, SW1E 5EA. Depart hotel ~6:30 PM. Tower Hill → Victoria (~30 min, District/Circle). ~2h 45m with interval — out ~10:30 PM.</div><span class="item-tag itag-purple">Thu Evening · Whole Group</span></div></div>
+      <div class="item"><div class="item-icon">🗿</div><div><div class="item-name">Trafalgar Square & National Gallery</div><div class="item-desc">Free. Home to Monet, Van Gogh, Constable and Botticelli. Open late (until 9pm Fri). One of the world's great art collections. Worth a stop any afternoon you're in the area.</div><span class="item-tag itag-blue">Free · Any day</span></div></div>
+    </div>
+
+    <div class="hist-box"><div class="hist-label">🏛 History</div>St James's Palace was the official royal residence before Buckingham Palace. Horse Guards Parade was originally the jousting yard of Whitehall Palace — Henry VIII's sprawling complex that burned down in 1698. Big Ben's bell has rung every 15 minutes since 1859.</div>
+
+    <div class="subhead">Transit</div>
+    <div class="transit-row">
+      <span class="t-pill">🚇 Westminster (District/Circle/Jubilee)</span>
+      <span class="t-pill">🚇 St James's Park (District/Circle)</span>
+      <span class="t-pill">🚇 Victoria (District/Circle/Victoria)</span>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- 4. WEST END -->
+<div class="nbhd">
+  <div class="nbhd-hdr" onclick="toggleN('we')">
+    <div class="nbhd-left">
+      <div class="nbhd-icon">🎭</div>
+      <div>
+        <div class="nbhd-name">West End & Covent Garden</div>
+        <div class="nbhd-days">Any evening · Shopping any day</div>
+      </div>
+    </div>
+    <div class="nbhd-chev" id="chev-we">›</div>
+  </div>
+  <div class="nbhd-body" id="body-we">
+  <div class="nbhd-content">
+    <div class="here-banner">
+      <div class="here-icon">📍</div>
+      <div class="here-text"><strong>Thursday evening:</strong> Hamilton confirmed 7:30 PM, Victoria Palace Theatre. The West End is also great for independent evening exploring any night — Leicester Square, Soho, Covent Garden all within easy reach of your hotel.</div>
+    </div>
+
+    <div class="subhead">Don't Miss</div>
+    <div class="hcard"><div class="hcard-cap red"><div class="cap-ey">🎭 Confirmed · Thu June 25</div><div class="cap-title">Hamilton — Victoria Palace Theatre</div></div><div class="hcard-body"><div class="hcard-desc">Whole group including Lily. Depart hotel 6:30 PM, Tower Hill → Victoria (District/Circle, ~30 min). Victoria Street, SW1E 5EA. ~2h 45m with interval — out ~10:30 PM.</div></div></div>
+
+    <div class="subhead">Eating & Drinking</div>
+    <div class="item-list">
+      <div class="item"><div class="item-icon">🥂</div><div><div class="item-name">Clos Maggiore</div><div class="item-desc">Consistently voted one of London's most romantic restaurants. Beautiful conservatory interior. French cuisine. Book well in advance. Great for a special evening.</div><span class="item-tag itag-gold">Covent Garden · Book ahead</span></div></div>
+      <div class="item"><div class="item-icon">🍝</div><div><div class="item-name">Bancone</div><div class="item-desc">Outstanding fresh pasta in a relaxed setting. One of London's best Italian restaurants at a reasonable price. Walk-ins at the bar or book ahead.</div><span class="item-tag itag-gold">Covent Garden · ££</span></div></div>
+      <div class="item"><div class="item-icon">🥩</div><div><div class="item-name">Hawksmoor Seven Dials</div><div class="item-desc">London's most celebrated steak restaurant. Outstanding quality, great atmosphere. Excellent value set menu at lunch.</div><span class="item-tag itag-gold">Seven Dials · £££</span></div></div>
+      <div class="item"><div class="item-icon">🍸</div><div><div class="item-name">Brasserie Zédel</div><div class="item-desc">Grand Parisian brasserie in an art deco basement. Pre-theatre set menu is exceptional value. Great for dinner before a show.</div><span class="item-tag itag-gold">Piccadilly · ££</span></div></div>
+    </div>
+
+    <div class="subhead">Shopping & Exploring</div>
+    <div class="item-list">
+      <div class="item"><div class="item-icon">🛍</div><div><div class="item-name">Carnaby Street & Kingly Court</div><div class="item-desc">Independent boutiques, global brands and an open-air courtyard with great food options. Good for daytime exploring.</div></div></div>
+      <div class="item"><div class="item-icon">🎪</div><div><div class="item-name">Covent Garden Market</div><div class="item-desc">Street performers, independent shops, good restaurants. Always lively. The Apple Market upstairs has arts and crafts.</div></div></div>
+      <div class="item"><div class="item-icon">🎟</div><div><div class="item-name">TKTS Booth — Leicester Square</div><div class="item-desc">Same-day West End tickets up to 50% off. Opens 10am daily. Good for Lion King, Phantom, or anything else that takes your fancy.</div></div></div>
+    </div>
+
+    <div class="devon-box"><div class="devon-label">🌿 For Devon</div>The Devonshire, Denman Street, Soho (just off Piccadilly Circus) — opened 2023 on the site of a pub called the Devonshire Arms that stood here from 1793. Listed by the Michelin Guide in 2025 as one of the best traditional British restaurants in London. Genuinely excellent food, not just a name connection.</div>
+
+    <div class="subhead">Transit</div>
+    <div class="transit-row">
+      <span class="t-pill">🚇 Piccadilly Circus (Bakerloo/Piccadilly)</span>
+      <span class="t-pill">🚇 Covent Garden (Piccadilly)</span>
+      <span class="t-pill">🚇 Leicester Square (Northern/Piccadilly)</span>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- 5. WINDSOR -->
+<div class="nbhd">
+  <div class="nbhd-hdr" onclick="toggleN('wn')">
+    <div class="nbhd-left">
+      <div class="nbhd-icon">🏯</div>
+      <div>
+        <div class="nbhd-name">Royal Windsor</div>
+        <div class="nbhd-days">Fri June 26 — group tour day</div>
+      </div>
+    </div>
+    <div class="nbhd-chev" id="chev-wn">›</div>
+  </div>
+  <div class="nbhd-body" id="body-wn">
+  <div class="nbhd-content">
+    <div class="here-banner">
+      <div class="here-icon">📍</div>
+      <div class="here-text"><strong>Fri June 26:</strong> Coach departs hotel 8:00 AM. Windsor Castle 10:30 AM. Free time in Windsor town from ~12:30 PM. <strong>Coach departs Windsor 2:30 PM sharp — do not be late.</strong></div>
+    </div>
+
+    <div class="hcard"><div class="hcard-cap gold"><div class="cap-ey">🏰 Must See</div><div class="cap-title">Windsor Castle</div></div><div class="hcard-body"><div class="hcard-desc">The oldest and largest occupied castle in the world. Founded by William the Conqueror in 1066, home to 40 monarchs. St George's Chapel is a medieval marvel — Henry VIII, Charles I, and Queen Elizabeth II are buried here. Allow at least 2 hours. Visit St George's Chapel first as queues form quickly.</div></div></div>
+
+    <div class="subhead">Free Time in Windsor Town</div>
+    <div class="item-list">
+      <div class="item"><div class="item-icon">🏠</div><div><div class="item-name">The Crooked House (Market Cross House)</div><div class="item-desc">Famously wonky building on the High Street, said to have a secret tunnel to the castle. Great photo stop.</div></div></div>
+      <div class="item"><div class="item-icon">🌳</div><div><div class="item-name">The Long Walk — Cambridge Gate</div><div class="item-desc">Walk from the Crooked House to Cambridge Gate (5 min). Peer through the gates for views up the 2.5-mile Long Walk to the Copper Horse statue (George III on horseback). It was here that Queen Elizabeth II's funeral procession began its final approach.</div></div></div>
+      <div class="item"><div class="item-icon">🍺</div><div><div class="item-name">The Two Brewers</div><div class="item-desc">Great pub right beside Cambridge Gate. Perfect spot for lunch with a view of the castle's private entrance.</div></div></div>
+    </div>
+
+    <div class="devon-box"><div class="devon-label">🌿 For Devon</div>The Cavendish family (Dukes of Devonshire) appear throughout Windsor Castle's royal court history — keep an eye out in the State Apartments. Devonshire clotted cream teas are also widely available in Windsor town.</div>
+    <div class="info-box warn"><div class="ibox-label">⚠ Don't miss the coach</div>Meet at the replica train outside Windsor & Eton Central station in the Windsor Royal Shopping Centre at 2:30 PM sharp. The coach waits for no one.</div>
+  </div>
+  </div>
+</div>
+
+<!-- 6. GREENWICH -->
+<div class="nbhd">
+  <div class="nbhd-hdr" onclick="toggleN('gr')">
+    <div class="nbhd-left">
+      <div class="nbhd-icon">🌍</div>
+      <div>
+        <div class="nbhd-name">Greenwich & Canary Wharf</div>
+        <div class="nbhd-days">Fri June 26 evening</div>
+      </div>
+    </div>
+    <div class="nbhd-chev" id="chev-gr">›</div>
+  </div>
+  <div class="nbhd-body" id="body-gr">
+  <div class="nbhd-content">
+    <div class="here-banner">
+      <div class="here-icon">📍</div>
+      <div class="here-text"><strong>Fri June 26 evening:</strong> After returning from Windsor, the itinerary suggests Uber Boat from Embankment Pier to Greenwich (Thames Clippers), then DLR to Canary Wharf, then Elizabeth line home.</div>
+    </div>
+
+    <div class="subhead">Greenwich Sights</div>
+    <div class="item-list">
+      <div class="item"><div class="item-icon">⛵</div><div><div class="item-name">Cutty Sark</div><div class="item-desc">The world's only surviving extreme clipper ship, 150 years old. Travelled the equivalent of 2.5 voyages to the moon and back.</div><span class="item-tag itag-blue">Paid entry · daytime</span></div></div>
+      <div class="item"><div class="item-icon">🔭</div><div><div class="item-name">Royal Observatory & Meridian Line</div><div class="item-desc">Founded 1675 to solve the longitude problem. The line of 0° longitude runs through here. Climb the hill for a spectacular panorama — Canary Wharf, Thames curve, St Paul's, London Eye, The Shard, all at once.</div><span class="item-tag itag-blue">Free outside · Paid entry</span></div></div>
+      <div class="item"><div class="item-icon">🦶</div><div><div class="item-name">Greenwich Foot Tunnel (7:30 PM)</div><div class="item-desc">Walk under the Thames via this Victorian engineering marvel (opened 1902). From the north bank, DLR from Island Gardens to Canary Wharf.</div></div></div>
+    </div>
+
+    <div class="subhead">Canary Wharf</div>
+    <div class="item-list">
+      <div class="item"><div class="item-icon">🌿</div><div><div class="item-name">Crossrail Place Roof Garden</div><div class="item-desc">Hidden rooftop garden above Canary Wharf station sitting almost exactly on the Meridian line. Asian plants to the east, Americas to the west. Genuinely stunning and almost unknown to tourists.</div></div></div>
+      <div class="item"><div class="item-icon">🎨</div><div><div class="item-name">Outdoor Art Collection</div><div class="item-desc">London's largest collection of outdoor public art — 100+ pieces transforming the financial district into an open-air gallery.</div></div></div>
+      <div class="item"><div class="item-icon">💡</div><div><div class="item-name">The Outernet — 'The Now Building'</div><div class="item-desc">Exit Tottenham Court Road station via Charing Cross Road exit. Four storeys of wrap-around LED screens — a genuinely spectacular free light show.</div></div></div>
+    </div>
+
+    <div class="hist-box"><div class="hist-label">🏛 History</div>Greenwich is the birthplace of Henry VIII, Mary I, and Elizabeth I. The Palace of Placentia once stood on the riverside — Henry VIII was born, married, and hunted here. The Old Royal Naval College (designed by Wren) later became the world's first naval college.</div>
+
+    <div class="subhead">Transit</div>
+    <div class="transit-row">
+      <span class="t-pill">🚢 Uber Boat from Embankment</span>
+      <span class="t-pill">🚇 DLR Island Gardens → Canary Wharf</span>
+      <span class="t-pill">🚇 Elizabeth line → Tottenham Court Rd</span>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- 7. CAMDEN / COAL DROPS YARD -->
+<div class="nbhd">
+  <div class="nbhd-hdr" onclick="toggleN('cd')">
+    <div class="nbhd-left">
+      <div class="nbhd-icon">🏭</div>
+      <div>
+        <div class="nbhd-name">King's Cross & Coal Drops Yard</div>
+        <div class="nbhd-days">Thu evening (optional)</div>
+      </div>
+    </div>
+    <div class="nbhd-chev" id="chev-cd">›</div>
+  </div>
+  <div class="nbhd-body" id="body-cd">
+  <div class="nbhd-content">
+    <div class="here-banner">
+      <div class="here-icon">📍</div>
+      <div class="here-text"><strong>Thu June 25 evening (optional):</strong> Lily's band heads here after the Tower Bridge performance. Departs Piccadilly Circus 6:45 PM. Note: conflicts with Hamilton at 7:30 PM — Lily's choice.</div>
+    </div>
+
+    <div class="subhead">Don't Miss</div>
+    <div class="item-list">
+      <div class="item"><div class="item-icon">🛤</div><div><div class="item-name">Platform 9¾ — King's Cross Station</div><div class="item-desc">Head into the overground station (not the Tube) to see the famous Harry Potter sign. Always a queue for photos but worth it.</div></div></div>
+      <div class="item"><div class="item-icon">🕯</div><div><div class="item-name">Coal Drops Yard</div><div class="item-desc">Victorian coal storage vaults transformed into a stunning retail and dining destination. Cobbled courtyards, great restaurants, independent shops. Visit Granary Square — 1,080 illuminated waterjets at night.</div></div></div>
+      <div class="item"><div class="item-icon">🌊</div><div><div class="item-name">Regent's Canal & Gasholder Park</div><div class="item-desc">Stroll along the canal (completed 1820). Gasholder No 8 — a 19th century wrought-iron structure, dismantled and restored, now encasing a circular lawn. A beautiful and unusual space.</div></div></div>
+    </div>
+
+    <div class="hist-box"><div class="hist-label">🏛 History: King's Cross</div>Believed to be the site of the legendary battle between Queen Boudicca and Roman invaders in AD 61. Boudicca's final resting place is said to be under Platform 9 at King's Cross! The area was known as Battle Bridge until a statue of George IV was erected in 1830 — demolished 1842, but the name King's Cross stuck.</div>
+
+    <div class="subhead">Transit</div>
+    <div class="transit-row">
+      <span class="t-pill">🚇 Piccadilly line → King's Cross</span>
+      <span class="t-pill">🚶 Walk: Station → King's Blvd → Coal Drops Yard</span>
+      <span class="t-pill">🚇 Return: Piccadilly line → Piccadilly Circus</span>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- 8. DOCKLANDS / EXCEL -->
+<div class="nbhd">
+  <div class="nbhd-hdr" onclick="toggleN('dl')">
+    <div class="nbhd-left">
+      <div class="nbhd-icon">🥁</div>
+      <div>
+        <div class="nbhd-name">Docklands & ExCeL</div>
+        <div class="nbhd-days">Sat June 27 — London Tattoo</div>
+      </div>
+    </div>
+    <div class="nbhd-chev" id="chev-dl">›</div>
+  </div>
+  <div class="nbhd-body" id="body-dl">
+  <div class="nbhd-content">
+    <div class="here-banner">
+      <div class="here-icon">📍</div>
+      <div class="here-text"><strong>Sat June 27:</strong> Coach departs hotel at <strong>4:00 PM sharp</strong>. VIP pre-show reception (finger foods), then The London Tattoo at 7:00 PM. Show ends 9:15 PM. Late dinner at Traitor's Gate near the hotel at 10:00 PM (Meal Included).</div>
+    </div>
+
+    <div class="hcard"><div class="hcard-cap purple"><div class="cap-ey">🥁 Lily Performs · Sat 7:00 PM</div><div class="cap-title">The London Tattoo — ExCeL London</div></div><div class="hcard-body"><div class="hcard-desc">Marching Mizzou performs alongside His Majesty's Royal Marines Band and an international slate of bands. Opening sequence and massed bands finale. Plan a post-show meeting point with Lily in advance — it will be very busy.</div><div class="hcard-meta">📍 ExCeL London, Royal Victoria Dock · Coach from hotel 4:00 PM · Tattoo ends 9:15 PM</div></div></div>
+
+    <div class="info-box warn"><div class="ibox-label">⚠ Saturday logistics</div>Coach departs hotel at 4:00 PM — do not miss it. VIP pre-show has finger foods only, not a full dinner. Full dinner (Meal Included) at Traitor's Gate, near hotel, at 10:00 PM after the Tattoo.</div>
+
+    <div class="info-box tip"><div class="ibox-label">🚇 If you miss the coach</div>DLR from Tower Gateway → Custom House for ExCeL (~20 min). Note: VIP pre-show access is not guaranteed without the group coach.</div>
+
+    <div class="info-box note"><div class="ibox-label">🥃 Bonus tip</div>Boisdale of Canary Wharf is near ExCeL — 300+ Scotches, live jazz. Worth knowing for a pre-show or post-show drink if time allows. (See Extras tab for the full whisky bar guide.)</div>
+  </div>
+  </div>
+</div>
+
+</div><!-- end content -->
+</div><!-- end nbhd panel -->
+
+<!-- ══ LISTS PANEL ══ -->
+<div id="lists-panel" class="panel">
+<div class="content" style="padding-top:14px">
+
+  <div class="list-section">
+    <div class="list-title">⭐ Must-Do Restaurants</div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Oblix at The Shard</strong> — 32nd floor, Thames views, special occasion dinner. oblixrestaurant.com <span>Tower Bridge area · £££</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Hawksmoor Seven Dials</strong> — London's best steak restaurant. Set lunch is great value. <span>Covent Garden · £££</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Brat</strong> — 1 Michelin star, wood-fire cooking, great for groups. 20 min walk or 5 min cab from hotel. <span>Shoreditch · £££</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Clos Maggiore</strong> — Most romantic restaurant in London. French cuisine, beautiful conservatory. Book ahead. <span>Covent Garden · £££</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Bancone</strong> — Outstanding fresh pasta. One of London's best Italians at a fair price. <span>Covent Garden · ££</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Brasserie Zédel</strong> — Grand Parisian brasserie, art deco basement. Pre-theatre set menu exceptional value. <span>Piccadilly · ££</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Bravas</strong> — Spanish tapas and natural wine. Fun and walkable from hotel. <span>London Bridge · ££</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>St John Smithfield</strong> — The original nose-to-tail British restaurant. Iconic. 5 min cab from hotel. <span>Smithfield · £££</span></div></div>
+  </div>
+
+  <div class="list-section">
+    <div class="list-title">🍺 Best Pubs</div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>The Hoop & Grapes</strong> — Survived the Great Fire of 1666. 5 min from hotel. <span>Aldgate</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>The Anchor Bankside</strong> — Historic Thames-side pub, great views. Samuel Johnson was a regular. <span>Southwark</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>The Harp</strong> — Exceptional cask ales, cosy, great staff. One of London's best traditional pubs. <span>Covent Garden</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>The Black Dog</strong> — Taylor Swift landmark AND genuinely excellent pub. Best scotch egg in London. <span>Vauxhall · 20 min</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>The Two Brewers</strong> — Right beside Cambridge Gate, Windsor. Great for lunch during the Windsor free time. <span>Windsor</span></div></div>
+  </div>
+
+  <div class="list-section">
+    <div class="list-title">🛒 Markets & Shopping</div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Borough Market</strong> — London's finest food market. Go hungry. Great for Thu lunch. <span>Southwark · Mon–Sat</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Coal Drops Yard</strong> — Victorian industrial space, independent boutiques and restaurants. <span>King's Cross · Thu eve</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Covent Garden Apple Market</strong> — Arts, crafts and antiques in the upper galleries. <span>Covent Garden</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Carnaby Street & Kingly Court</strong> — Independent shops, global brands, great food courtyard. <span>Soho</span></div></div>
+  </div>
+
+  <div class="list-section">
+    <div class="list-title">🎨 Free Activities</div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Sky Garden</strong> — 35-floor panoramic garden. Book free tickets ahead at skygarden.london <span>City of London</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Tate Modern</strong> — World-class modern art, free. Turbine Hall always has a major installation. <span>South Bank</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>National Gallery</strong> — One of the world's great art collections. Free. Open late Fri. <span>Trafalgar Square</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>British Museum</strong> — Rosetta Stone, Elgin Marbles, Egyptian mummies. Free. <span>Bloomsbury · 20 min walk</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>One New Change rooftop</strong> — Free view of St Paul's Cathedral. <span>City · near Tube</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Crossrail Place Roof Garden</strong> — Hidden rooftop garden above Canary Wharf station. Free. <span>Canary Wharf</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>V&A South Kensington</strong> — World's greatest decorative arts museum. Free. Open until 10pm Fri. <span>South Ken</span></div></div>
+  </div>
+
+  <div class="list-section">
+    <div class="list-title">☕ Best Coffee</div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Lantana City</strong> — Excellent coffee and brunch. <span>Near Liverpool St</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Monmouth Coffee</strong> — London's best independent coffee roaster. Long queues but worth it. <span>Borough Market / Covent Garden</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Ozone Coffee</strong> — Specialty coffee with excellent food. <span>Old Street · 20 min</span></div></div>
+  </div>
+
+  <div class="list-section">
+    <div class="list-title">🌧 Rainy Day Options</div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>British Museum</strong> — Could easily spend a full day here. Free. <span>Bloomsbury</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>V&A</strong> — Fashion, jewellery, furniture, ceramics from 5,000 years of history. Free. <span>South Kensington</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>National Portrait Gallery</strong> — Recently renovated. Every famous British face in history. Free. <span>Trafalgar Square</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Bloomberg Space (Mithras Temple)</strong> — Free, extraordinary Roman temple discovered during construction. <span>City · near hotel</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Afternoon tea</strong> — The Dorchester, Claridge's or Fortnum & Mason. Book ahead. <span>West End · £££</span></div></div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══ EXTRAS PANEL ══ -->
+<div id="extras-panel" class="panel">
+<div class="content" style="padding-top:14px">
+
+  <!-- WHISKY BARS -->
+  <div class="whisky-card">
+    <div class="whisky-cap">
+      <div class="whisky-cap-ey">🥃 Greg & Devon · Friday Evening</div>
+      <div class="whisky-cap-t">Whisky Bar Route — A Proper Evening Out</div>
+    </div>
+    <div class="whisky-body">
+      <div class="info-box tip" style="margin-bottom:12px"><div class="ibox-label">📍 Friday June 26</div>While Katie, Alicia & Lily are at Harry Styles at Wembley, here's a suggested whisky route through the City. All three bars are walkable between each other. Easy cab back to hotel from Black Rock.</div>
+      <div class="whisky-stop">
+        <div class="stop-num">1</div>
+        <div>
+          <div class="stop-name">The Whisky Exchange Bar</div>
+          <div class="stop-loc">South Bank · 15 min walk from hotel · Opening dram</div>
+          <div class="stop-desc">Bar arm of one of the world's best whisky retailers. Strong Scotch focus, approachable staff. Try before you buy — the retail shop next door lets you take a bottle home. Spend ~1 hour here.</div>
+        </div>
+      </div>
+      <div class="whisky-stop">
+        <div class="stop-num">2</div>
+        <div>
+          <div class="stop-name">Boisdale of Bishopsgate</div>
+          <div class="stop-loc">City of London · 20 min walk · The main event</div>
+          <div class="stop-desc">The best whisky bar in London for your group — Scottish restaurant and whisky bar with 300+ Scotches and live jazz most evenings. Settle in here for 2–3 hours. Scottish food available if you want dinner. Also has a Canary Wharf branch near ExCeL (useful Saturday evening).</div>
+        </div>
+      </div>
+      <div class="whisky-stop">
+        <div class="stop-num">3</div>
+        <div>
+          <div class="stop-name">Black Rock</div>
+          <div class="stop-loc">Shoreditch · 15 min walk from Boisdale · Nightcap</div>
+          <div class="stop-desc">The bar itself is built around a solid English oak tree trunk with whisky aging inside it — a genuinely unique setting. ~250 whiskies, great cocktails, knowledgeable staff. Worth seeing even for just one dram. Easy cab back to hotel from here.</div>
+        </div>
+      </div>
+      <div class="whisky-stop">
+        <div class="stop-num">＋</div>
+        <div>
+          <div class="stop-name">Milroy's of Soho</div>
+          <div class="stop-loc">Soho · Alternative if heading West End direction</div>
+          <div class="stop-desc">Legendary whisky shop and basement bar in Soho since 1964. Excellent Scotch selection, intimate basement setting. Good alternative if the evening takes you toward the West End instead of the City route above.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORY NOTES -->
+  <div class="list-section" style="margin-top:14px">
+    <div class="list-title">🏛 History Highlights</div>
+    <div class="list-item"><div class="list-dot" style="background:#3B82F6"></div><div class="list-body"><strong>Roman London (AD 43–410)</strong> — Londinium founded by Romans. Walls, amphitheatre (Guildhall), and Mithras Temple (Bloomberg Space) survive. <span>Tower Hill area</span></div></div>
+    <div class="list-item"><div class="list-dot" style="background:#3B82F6"></div><div class="list-body"><strong>Viking London (9th–11th c)</strong> — Danes sacked London multiple times. Alfred the Great recaptured it 886 AD. The street name "Aldwych" means "old settlement" — where Danes lived. <span>Strand / Aldwych area</span></div></div>
+    <div class="list-item"><div class="list-dot" style="background:#3B82F6"></div><div class="list-body"><strong>Tower of London (1066–present)</strong> — William the Conqueror built it to intimidate Londoners. Elizabeth I imprisoned here, Anne Boleyn beheaded, Guy Fawkes tortured. Crown Jewels on display. <span>Walking distance from hotel</span></div></div>
+    <div class="list-item"><div class="list-dot" style="background:#3B82F6"></div><div class="list-body"><strong>Great Fire of London (1666)</strong> — Destroyed 13,200 houses and 87 churches over 4 days. Sir Christopher Wren redesigned the City — St Paul's, The Monument, 50+ churches all his work. <span>City of London</span></div></div>
+    <div class="list-item"><div class="list-dot" style="background:#3B82F6"></div><div class="list-body"><strong>WWII London (1940–45)</strong> — The Blitz killed 30,000 Londoners. Churchill's Cabinet War Rooms are preserved beneath Whitehall. St Paul's famously survived the Blitz. <span>Westminster / City</span></div></div>
+    <div class="list-item"><div class="list-dot" style="background:#3B82F6"></div><div class="list-body"><strong>Windsor Castle (1070–present)</strong> — Built by William the Conqueror, home to 40 monarchs over 950 years. Largest occupied castle in the world. Queen Elizabeth II is buried in St George's Chapel. <span>Windsor · Fri excursion</span></div></div>
+  </div>
+
+  <!-- PRACTICAL TIPS -->
+  <div class="list-section">
+    <div class="list-title">💡 Practical Tips</div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Oyster Card</strong> — Always tap in AND out at every station. Forgetting to tap out = maximum fare charged. Top up at any Tube station. <span>Provided at hotel check-in</span></div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Payment</strong> — Contactless credit/debit cards work everywhere. London is essentially cashless. Apple Pay widely accepted.</div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Tipping</strong> — 10–12.5% at restaurants (check if service already included). Not expected in pubs. Taxi: round up to nearest pound.</div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Weather in June</strong> — Average 19°C (66°F). Can rain anytime. Bring a light layer and a compact umbrella. Evenings can be cool.</div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Pub hours</strong> — Most pubs open until 11pm Mon–Sat, 10:30pm Sunday. Sunday closing is earlier across most of London.</div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Cab apps</strong> — Uber works in London. Black cabs (official London taxis) can be hailed on the street — all licensed and metered.</div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Emergency</strong> — 999 (UK emergency number, equivalent to 911). Non-emergency police: 101.</div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>WhatsApp group</strong> — Will be created and shared before departure for the whole travel group.</div></div>
+  </div>
+
+  <!-- CONTACTS -->
+  <div class="list-section">
+    <div class="list-title">📞 Key Contacts</div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Hotel:</strong> Novotel London Tower Bridge<br>10 Pepys Street, EC3N 2NR<br>+44 20 7660 0675 (option 3)</div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>London Band Week (Joe):</strong><br>joe@londonbandweek.com<br>+44 7813 690763</div></div>
+    <div class="list-item"><div class="list-dot"></div><div class="list-body"><strong>Lily's band hotel:</strong><br>Zedwell Piccadilly / Moxy London Piccadilly<br>Great Windmill Street, Piccadilly Circus, W1D 7DH</div></div>
+  </div>
+
+</div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <button class="nitem active" onclick="switchPanel('nbhd')"><span class="nicon">📍</span><span class="nlabel">Neighborhoods</span></button>
+  <button class="nitem" onclick="switchPanel('lists')"><span class="nicon">🍽</span><span class="nlabel">Lists</span></button>
+  <button class="nitem" onclick="switchPanel('extras')"><span class="nicon">🥃</span><span class="nlabel">Extras</span></button>
+</nav>
+
+<script>
+function switchPanel(p){
+  ['nbhd','lists','extras'].forEach(id=>{
+    document.getElementById(id+'-panel').classList.remove('active');
+  });
+  document.getElementById(p+'-panel').classList.add('active');
+  document.querySelectorAll('.nitem').forEach((el,i)=>{
+    el.classList.toggle('active',['nbhd','lists','extras'][i]===p);
+  });
+  window.scrollTo(0,0);
+}
+
+function toggleN(id){
+  const body=document.getElementById('body-'+id);
+  const hdr=body.previousElementSibling;
+  const chev=document.getElementById('chev-'+id);
+  const open=body.classList.toggle('open');
+  hdr.classList.toggle('open',open);
+  chev.classList.toggle('open',open);
+}
+
+// Open Tower Bridge section by default
+toggleN('tb');
+</script>
+</body>
+</html>
