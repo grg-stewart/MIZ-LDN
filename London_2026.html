@@ -199,6 +199,14 @@
   .panel { display: none; }
   .panel.active { display: block; animation: fadeUp 0.25s ease; }
   .hotel-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); margin: 10px 0; }
+  .link-card { display:flex; align-items:center; gap:13px; background:var(--white); border-radius:12px; padding:13px 15px; margin-bottom:8px; box-shadow:var(--shadow); text-decoration:none; border:1px solid rgba(27,58,107,0.08); transition:all 0.15s; }
+  .link-card:active { background:#F0F4FF; transform:scale(0.98); }
+  .link-card-urgent { border-left:3px solid #EF4444; }
+  .link-card-icon { font-size:22px; flex-shrink:0; }
+  .link-card-body { flex:1; }
+  .link-card-title { font-size:14px; font-weight:600; color:var(--navy); margin-bottom:2px; }
+  .link-card-desc { font-size:12px; color:var(--gray); line-height:1.45; }
+  .link-card-arrow { font-size:20px; color:var(--gold); flex-shrink:0; }
   .hotel-hdr { padding: 16px 18px 14px; }
   .hotel-hdr.group { background: linear-gradient(135deg, #0F2547, #1B3A6B); border-bottom: 3px solid var(--gold); }
   .hotel-hdr.lily  { background: linear-gradient(135deg, #1E0A47, #2D1B69); border-bottom: 3px solid #7C3AED; }
@@ -967,30 +975,98 @@
 
 <!-- COMPANION GUIDE PANEL -->
 <div id="guide-panel" class="panel">
-  <div class="content" style="padding-top: 18px;">
-    <div style="font-family: 'Playfair Display', serif; font-size: 24px; color: var(--navy); margin-bottom: 5px;">Companion Guide</div>
-    <div style="font-size: 14px; color: var(--gray); margin-bottom: 18px;">Quick reference by neighborhood</div>
-    <div class="guide-section">
-      <div class="guide-section-title">🏰 Tower Bridge / City</div>
-      <div class="guide-item"><div class="guide-item-icon">⭐</div><div><div class="guide-item-name">Sky Garden</div><div class="guide-item-desc">Free panoramic rooftop garden. Book at skygarden.london. Perfect for pre-dinner drinks any evening.</div></div></div>
-      <div class="guide-item"><div class="guide-item-icon">🍺</div><div><div class="guide-item-name">The Hoop & Grapes</div><div class="guide-item-desc">Survived the Great Fire of 1666. One of London's oldest pubs. 5 min from hotel.</div></div></div>
-      <div class="guide-item"><div class="guide-item-icon">💎</div><div><div class="guide-item-name">Splurge: Oblix at The Shard</div><div class="guide-item-desc">32nd floor Thames views at sunset. 10 min walk. Special occasion dinner. oblixrestaurant.com</div></div></div>
-    </div>
-    <div class="guide-section">
-      <div class="guide-section-title">🛒 South Bank</div>
-      <div class="guide-item"><div class="guide-item-icon">⭐</div><div><div class="guide-item-name">Borough Market</div><div class="guide-item-desc">London's finest food market. Roots to 12th century. Go hungry. Great for Thu lunch after Lily's performance.</div></div></div>
-      <div class="guide-item"><div class="guide-item-icon">🐾</div><div><div class="guide-item-name">The Black Dog, Vauxhall</div><div class="guide-item-desc">Taylor Swift's Tortured Poets pub. Award-winning freehouse. Best scotch egg in London. 112 Vauxhall Walk — 20 min from hotel. Thu afternoon ideal for Katie/Alicia/Lily before Hamilton.</div></div></div>
-      <div class="guide-item"><div class="guide-item-icon">🎨</div><div><div class="guide-item-name">Tate Modern</div><div class="guide-item-desc">World-class modern art, free. Turbine Hall always has a major installation. 20 min walk from hotel.</div></div></div>
-    </div>
-    <div class="guide-section">
-      <div class="guide-section-title">🎭 West End</div>
-      <div class="guide-item"><div class="guide-item-icon">✅</div><div><div class="guide-item-name">Hamilton — CONFIRMED</div><div class="guide-item-desc">Victoria Palace Theatre · Thu June 25 · 7:30 PM. Depart hotel 6:30 PM. ~2h 45m with interval.</div></div></div>
-      <div class="guide-item"><div class="guide-item-icon">🥃</div><div><div class="guide-item-name">Whisky Bars — Greg & Devon (Fri)</div><div class="guide-item-desc">The Whisky Exchange Bar (South Bank) → Boisdale of Bishopsgate (300+ Scotches, live jazz) → Black Rock (Shoreditch, bar built around an oak trunk). See full Companion Guide for details.</div></div></div>
-    </div>
-    <div class="guide-section">
-      <div class="guide-section-title">🎤 Harry Styles — Wembley</div>
-      <div class="guide-item"><div class="guide-item-icon">📍</div><div><div class="guide-item-name">Wembley Stadium, Friday June 26</div><div class="guide-item-desc">Doors 5:00 PM · Shania Twain 7:20 PM · Harry Styles ~8:30 PM. Tube: Bakerloo from Piccadilly Circus → Baker Street, then Jubilee/Metropolitan → Wembley Park (~45 min). Depart hotel by 4:00 PM.</div></div></div>
-    </div>
+  <div class="content" style="padding-top:18px; max-width:520px; margin:0 auto; padding-left:16px; padding-right:16px;">
+
+    <div style="font-family:'Playfair Display',serif;font-size:24px;color:var(--navy);margin-bottom:4px;">Quick Links</div>
+    <div style="font-size:13px;color:var(--gray);margin-bottom:18px;">Tap any link to open</div>
+
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-mid);margin-bottom:8px;">📋 Itineraries</div>
+
+    <a href="https://grg-stewart.github.io/MIZ-LDN/London_2026_Companion_Guide.html" target="_blank" class="link-card">
+      <div class="link-card-icon">📍</div>
+      <div class="link-card-body">
+        <div class="link-card-title">Companion Guide</div>
+        <div class="link-card-desc">Neighborhoods, restaurants, pubs, whisky bars &amp; practical tips</div>
+      </div>
+      <div class="link-card-arrow">›</div>
+    </a>
+
+    <a href="https://grg-stewart.github.io/MIZ-LDN/Marching_Mizzou_London_2026_Band.html" target="_blank" class="link-card">
+      <div class="link-card-icon">🎷</div>
+      <div class="link-card-body">
+        <div class="link-card-title">Band Itinerary — Lily</div>
+        <div class="link-card-desc">Marching Mizzou Band 140 full schedule &amp; key info</div>
+      </div>
+      <div class="link-card-arrow">›</div>
+    </a>
+
+    <a href="https://londonbandweekusa.com/2026-m2-companions/itinerary/" target="_blank" class="link-card">
+      <div class="link-card-icon">🇬🇧</div>
+      <div class="link-card-body">
+        <div class="link-card-title">Official Tour Itinerary</div>
+        <div class="link-card-desc">London Band Week USA — companions itinerary page</div>
+      </div>
+      <div class="link-card-arrow">›</div>
+    </a>
+
+    <a href="https://grg-stewart.github.io/MIZ-LDN/" target="_blank" class="link-card">
+      <div class="link-card-icon">🐯</div>
+      <div class="link-card-body">
+        <div class="link-card-title">MIZ–LDN Landing Page</div>
+        <div class="link-card-desc">Share this link with the whole group</div>
+      </div>
+      <div class="link-card-arrow">›</div>
+    </a>
+
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-mid);margin:18px 0 8px;">🍽 Reservations</div>
+
+    <a href="tel:+442074075222" class="link-card">
+      <div class="link-card-icon">🥩</div>
+      <div class="link-card-body">
+        <div class="link-card-title">Gaucho Tower Bridge</div>
+        <div class="link-card-desc">Wed June 24 · 6:30 PM · Table for 5 · +44 20 7407 5222</div>
+      </div>
+      <div class="link-card-arrow">›</div>
+    </a>
+
+    <a href="tel:+442076266123" class="link-card">
+      <div class="link-card-icon">🍺</div>
+      <div class="link-card-body">
+        <div class="link-card-title">Hung, Drawn &amp; Quartered</div>
+        <div class="link-card-desc">Tue June 23 · World Cup England vs Ghana · +44 20 7626 6123</div>
+      </div>
+      <div class="link-card-arrow">›</div>
+    </a>
+
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-mid);margin:18px 0 8px;">🚨 Emergency</div>
+
+    <a href="tel:999" class="link-card link-card-urgent">
+      <div class="link-card-icon">🚑</div>
+      <div class="link-card-body">
+        <div class="link-card-title">UK Emergency Services</div>
+        <div class="link-card-desc">Police · Ambulance · Fire — dial 999</div>
+      </div>
+      <div class="link-card-arrow">›</div>
+    </a>
+
+    <a href="tel:+442074999000" class="link-card">
+      <div class="link-card-icon">🇺🇸</div>
+      <div class="link-card-body">
+        <div class="link-card-title">US Embassy London</div>
+        <div class="link-card-desc">33 Nine Elms Lane, SW11 7US · +44 20 7499 9000</div>
+      </div>
+      <div class="link-card-arrow">›</div>
+    </a>
+
+    <a href="tel:+442076600675" class="link-card">
+      <div class="link-card-icon">🏨</div>
+      <div class="link-card-body">
+        <div class="link-card-title">Novotel Tower Bridge</div>
+        <div class="link-card-desc">Your hotel · +44 20 7660 0675 · Option 3 for front desk</div>
+      </div>
+      <div class="link-card-arrow">›</div>
+    </a>
+
   </div>
 </div>
 
@@ -1069,7 +1145,7 @@
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <button class="nav-item active" onclick="switchPanel('itinerary')"><span class="nav-icon">📅</span><span class="nav-label">Itinerary</span></button>
-  <button class="nav-item" onclick="switchPanel('guide')"><span class="nav-icon">🗺</span><span class="nav-label">Guide</span></button>
+  <button class="nav-item" onclick="switchPanel('guide')"><span class="nav-icon">🔗</span><span class="nav-label">Links</span></button>
   <button class="nav-item" onclick="switchPanel('flights')"><span class="nav-icon">✈️</span><span class="nav-label">Flights</span></button>
   <button class="nav-item" onclick="switchPanel('hotels')"><span class="nav-icon">&#x1F3E8;</span><span class="nav-label">Hotels</span></button>
 </nav>
